@@ -7,3 +7,5 @@ data/raw/
 *.h5
 *.tflite
 .ipynb_checkpoints/
+.env
+data/

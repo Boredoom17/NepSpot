@@ -72,8 +72,8 @@ def main():
                     f"attempt_{str(i+1).zfill(2)}.wav"
                 )
                 # Skip if already downloaded
-                if os.path.exists(save_path):
-                    continue
+                """if os.path.exists(save_path):
+                    continue"""
                 try:
                     download_and_convert(url, save_path)
                     total += 1

@@ -1,20 +1,20 @@
-Test Accuracy: 97.10%
+Test Accuracy: 97.59%
 
               precision    recall  f1-score   support
 
-     aghillo       1.00      0.93      0.97        46
-        arko       1.00      0.98      0.99        46
-      baalnu       0.88      0.98      0.93        62
-       banda       1.00      0.98      0.99        54
-        feri       0.96      1.00      0.98        46
-       hoina       0.98      0.96      0.97        46
-      huncha       1.00      0.98      0.99        44
-      maathi       1.00      0.96      0.98        50
-       roknu       0.98      0.94      0.96        48
-        suru       0.95      0.98      0.96        54
-        tala       0.98      0.98      0.98        47
-   thik_chha       0.98      0.98      0.98        44
+     aghillo       0.98      0.98      0.98       127
+        arko       0.98      0.96      0.97       127
+      baalnu       0.96      0.96      0.96       162
+       banda       0.99      0.95      0.97       150
+        feri       0.99      0.99      0.99       127
+       hoina       0.93      0.99      0.96       126
+      huncha       0.98      0.96      0.97       124
+      maathi       0.95      0.99      0.97       139
+       roknu       0.98      0.96      0.97       135
+        suru       0.99      0.99      0.99       148
+        tala       0.98      0.99      0.99       130
+   thik_chha       1.00      0.98      0.99       125
 
-    accuracy                           0.97       587
-   macro avg       0.98      0.97      0.97       587
-weighted avg       0.97      0.97      0.97       587
+    accuracy                           0.98      1620
+   macro avg       0.98      0.98      0.98      1620
+weighted avg       0.98      0.98      0.98      1620

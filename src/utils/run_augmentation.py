@@ -57,7 +57,7 @@ def fill_to_target(speaker, word, folder):
         out_name  = f"aug_{str(added+1).zfill(2)}_{aug_name}.wav"
         out_path  = os.path.join(folder, out_name)
         
-        try:
+        try: 
             import numpy as np
             import librosa
             audio, sr = load_audio(source_clip)
@@ -83,6 +83,40 @@ def fill_to_target(speaker, word, folder):
     
     return added
 
+def augment_for_speed(speaker, word, folder):
+    """Create fast + fast+noisy versions of every real clip"""
+    import numpy as np
+    import librosa
+    
+    real_clips = sorted([
+        os.path.join(folder, f)
+        for f in os.listdir(folder)
+        if f.endswith('.wav') and 'aug' not in f
+    ])
+    
+    added = 0
+    for clip_path in real_clips:
+        basename  = os.path.splitext(os.path.basename(clip_path))[0]
+        fast_path = os.path.join(folder, f"{basename}_aug_fast.wav")
+        
+        if os.path.exists(fast_path):
+            continue
+        
+        try:
+            audio, sr = load_audio(clip_path)
+            rate      = np.random.uniform(1.2, 1.35)
+            fast      = librosa.effects.time_stretch(audio, rate=rate)
+            sf.write(fast_path, fast, sr)
+            
+            noisy_path = os.path.join(folder, f"{basename}_aug_fast_noisy.wav")
+            noisy = fast + 0.004 * np.random.randn(len(fast))
+            sf.write(noisy_path, noisy, sr)
+            added += 2
+        except Exception as e:
+            print(f"      ✗ {e}")
+    
+    return added
+
 def main():
     speakers = sorted(os.listdir(RAW_DIR))
     speakers = [s for s in speakers if os.path.isdir(os.path.join(RAW_DIR, s))]
@@ -92,25 +126,31 @@ def main():
     total_added = 0
     needs_aug   = []
 
-    # First pass — find who needs augmentation
+    # Pass 1 — fill incomplete speakers to TARGET
     for speaker in speakers:
         for word in KEYWORDS:
-            folder  = os.path.join(RAW_DIR, speaker, word)
-            count   = count_clips(folder)
+            folder = os.path.join(RAW_DIR, speaker, word)
+            count  = count_clips(folder)
             if 0 < count < TARGET:
                 needs_aug.append((speaker, word, folder, count))
 
-    if not needs_aug:
-        print("All speakers have 10+ clips per keyword. No augmentation needed.")
-        return
+    if needs_aug:
+        print(f"Found {len(needs_aug)} folders needing filling:\n")
+        for speaker, word, folder, count in needs_aug:
+            name = speaker.split('_', 1)[1] if '_' in speaker else speaker
+            print(f"  {name}")
+            total_added += fill_to_target(speaker, word, folder)
 
-    print(f"Found {len(needs_aug)} keyword folders needing augmentation:\n")
-    
-    for speaker, word, folder, count in needs_aug:
-        speaker_name = speaker.split('_', 1)[1] if '_' in speaker else speaker
-        print(f"  {speaker_name}")
-        added = fill_to_target(speaker, word, folder)
-        total_added += added
+    # Pass 2 — speed augment ALL real clips
+    print(f"\nAdding speed augmentation to all real clips...")
+    for speaker in speakers:
+        for word in KEYWORDS:
+            folder = os.path.join(RAW_DIR, speaker, word)
+            if not os.path.exists(folder):
+                continue
+            total_added += augment_for_speed(speaker, word, folder)
+        name = speaker.split('_', 1)[1] if '_' in speaker else speaker
+        print(f"  ✓ {name}")
 
     print(f"\nDone. Added {total_added} augmented clips total.")
 

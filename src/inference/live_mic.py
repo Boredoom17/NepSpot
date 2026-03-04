@@ -11,9 +11,9 @@ N_MFCC      = 40
 HOP_LENGTH  = 512
 N_FFT       = 1024
 MODELS_DIR  = "models/saved"
-THRESHOLD   = 0.85  # minimum confidence to report
-MARGIN      = 0.45  # minimum gap between top 2 predictions
-SILENCE_RMS = 0.01  # below this = silence
+THRESHOLD   = 0.80  # minimum confidence to report
+MARGIN      = 0.35  # minimum gap between top 2 predictions
+SILENCE_RMS = 0.002  # below this = silence
 
 KEYWORDS = [
     'baalnu', 'banda', 'suru', 'roknu',
@@ -98,6 +98,8 @@ def main():
     while True:
         try:
             input("\nPress Enter to speak...")
+            import time
+            time.sleep(0.5)
             audio = record_audio()
 
             # Silence detection

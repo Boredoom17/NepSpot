@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "description": "Speaker-independent split for NepSpot. Validation and test use only complete speakers. Partial speakers are preserved in train only.",
+  "keywords": [
+    "baalnu",
+    "banda",
+    "suru",
+    "roknu",
+    "maathi",
+    "tala",
+    "arko",
+    "aghillo",
+    "feri",
+    "thik_chha",
+    "huncha",
+    "hoina"
+  ],
+  "splits": {
+    "train_complete": [
+      "voicer1",
+      "voicer2",
+      "voicer3",
+      "voicer4",
+      "voicer5",
+      "voicer6",
+      "voicer7",
+      "voicer8",
+      "voicer9",
+      "voicer10",
+      "voicer11",
+      "voicer12",
+      "voicer13",
+      "voicer14",
+      "voicer15",
+      "voicer16"
+    ],
+    "train_partial": [
+      "voicer17",
+      "voicer18",
+      "voicer19",
+      "voicer20",
+      "voicer21",
+      "voicer22",
+      "voicer23",
+      "voicer24"
+    ],
+    "val": [
+      "voicer25",
+      "voicer26",
+      "voicer27"
+    ],
+    "test": [
+      "voicer28",
+      "voicer29",
+      "voicer30"
+    ]
+  }
+}

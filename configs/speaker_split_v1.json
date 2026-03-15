@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "description": "Speaker-independent split for NepSpot. Validation and test use only complete speakers. Partial speakers are preserved in train only.",
+  "keywords": [
+    "baalnu",
+    "banda",
+    "suru",
+    "roknu",
+    "maathi",
+    "tala",
+    "arko",
+    "aghillo",
+    "feri",
+    "thik_chha",
+    "huncha",
+    "hoina"
+  ],
+  "splits": {
+    "train_complete": [
+      "YLs9WaVkvDMfElfhPl0QPWf53As2_Bhawana",
+      "7tkM4TATgNTHNGPcHq2tCFA7gbz2_Kriti_Chhetri",
+      "GIqQxoxoW8c1VdebvssCD9VPnIo1_Khim_Kala_Khatri",
+      "OApOkw8un2XTCly8O2qCyZGrlKm1_Rijan_Parajuli",
+      "OxGeni7mBcZjQCbBosRQOQz4rt33_Prasamsa_Khatri",
+      "RbXfr11MtrhHzDiWdHg8hQQhsiO2_Pramisha_Khatri",
+      "Wd8VtQYfesMPswFs5daKXZs0Ktl2_Stake",
+      "Yy2z3qQJCrMuBC28zviFSSVhpr62_hu_yitan",
+      "ijmznSJh6CUyUPl2SAxX0mpJZG02_sandhya_khatri",
+      "xEGL0g4Mh7duIBL0LHoAZL4A2jD3_Pawan_Adhikari",
+      "y5zbwxYqYdYmpI1Zww4M0iFXYku2_Anisha_Ghar",
+      "IVYRR7Z13kbWs9Pn7QWI9nNn4oj2_Kripa_Reed",
+      "6f4Id86X8OWJni0xtbwKMaAjuF72_Jansan_Karki",
+      "ZJmt3EL9OHQoA7e7xUzpWQTsniA2_Tika_kumari_Foudar",
+      "dN4gBziZtoM7BbxDoO5kInyu6vq1_Su_MaN",
+      "3mhyINjDJZbNhcX8haksYTtoTNX2_Aadarsha_chhetri"
+    ],
+    "train_partial": [
+      "25mKq5S0PoVduEPTSUUE6y0Zifp1_Vipassi_Bajracharya",
+      "7bGqSIfgVHOnwfovLkIXphlH77x1_Khadka_Suraj",
+      "BUScGAtVYJV2ZgRmwXAbNYeco8b2_samundra_Gyawali",
+      "H2XfSb94P1chxIjJzogNldbGXN12_sumit_khatri",
+      "Lrbk2sYKtZajPfQ32BVRn6tfC7q1_Anil_Bhattarai",
+      "l9mnKyCHklUOBfPboajyQa5TnIC3_Aditi_Thapa",
+      "wmJlTFv23fXCAtQILPMulhc0DXY2_Bhupendra_Shahi",
+      "ym7SCMz8MPY9XuahYWV7xhXysbD2_Diya_Shakya"
+    ],
+    "val": [
+      "1NW3P5K0Jvb5NuJOFnXl60VnhFE2_arpan_jung_kshetri",
+      "6aU3x4QqDCSsobgrdPDY5wCveq52_Biraj_Gyawali",
+      "6wwBos9cKreffxDotGABo4GojfV2_HUNTERBOT"
+    ],
+    "test": [
+      "VF7aLtPNrLeVP2d5R6ZEoy8IwTy1_Binod_Shrestha",
+      "0AxWbZFr4UVXmwIAgpIsIayV57g2_Nephop_On",
+      "6tRVcOaB5ohBY6EqSMddQyLNRoE2_Anonymous"
+    ]
+  }
+}

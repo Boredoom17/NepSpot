@@ -3,10 +3,12 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 import seaborn as sns
-import matplotlib.font_manager as fm
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from utils.dataset import KEYWORDS, MODELS_DIR, RESULTS_DIR, ensure_directory, load_split_dataset, summarize_split
 
 plt.rcParams['axes.unicode_minus'] = False
 
@@ -15,16 +17,6 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['font.family'] = ['Devanagari MT', 'Noto Sans Devanagari', 'DejaVu Sans', 'sans-serif']
 
 print("Font family set to:", plt.rcParams['font.family'])
-
-PROCESSED_DIR = "data/processed"
-MODELS_DIR    = "models/saved"
-RESULTS_DIR   = "results"
-
-KEYWORDS = [
-    'baalnu', 'banda', 'suru', 'roknu',
-    'maathi', 'tala', 'arko', 'aghillo',
-    'feri', 'thik_chha', 'huncha', 'hoina'
-]
 
 NEPALI_LABELS = {
     'baalnu': 'बाल्नु', 'banda': 'बन्द', 'suru': 'सुरु',
@@ -40,27 +32,6 @@ ROMANIZED_LABELS = {
     'arko': 'Arko', 'aghillo': 'Aghillo', 'feri': 'Feri',
     'thik_chha': 'Thik Chha', 'huncha': 'Huncha', 'hoina': 'Hoina'
 }
-
-def load_dataset():
-    X, y = [], []
-    for speaker in sorted(os.listdir(PROCESSED_DIR)):
-        sp = os.path.join(PROCESSED_DIR, speaker)
-        if not os.path.isdir(sp):
-            continue
-        for word in KEYWORDS:
-            folder = os.path.join(sp, word)
-            if not os.path.exists(folder):
-                continue
-            for f in sorted(os.listdir(folder)):
-                if not f.endswith('.npy'):
-                    continue
-                try:
-                    mfcc = np.load(os.path.join(folder, f))
-                    X.append(mfcc)
-                    y.append(word)
-                except:
-                    pass
-    return np.array(X), np.array(y)
 
 def get_plot_labels(le_classes):
     """Smart label selection: Devanagari if font works, else Romanized"""
@@ -78,22 +49,20 @@ def get_plot_labels(le_classes):
         return [ROMANIZED_LABELS[c] for c in le_classes]
 
 def main():
-    os.makedirs(f"{RESULTS_DIR}/figures", exist_ok=True)
-    os.makedirs(f"{RESULTS_DIR}/metrics", exist_ok=True)
+    ensure_directory(f"{RESULTS_DIR}/figures")
+    ensure_directory(f"{RESULTS_DIR}/metrics")
 
     # ── Load data ──
-    print("Loading dataset...")
-    X, y = load_dataset()
+    print("Loading speaker-independent test split...")
+    X, y, speaker_ids, test_speakers = load_split_dataset('test')
     X = X[..., np.newaxis]
 
     le = LabelEncoder()
     le.classes_ = np.load(os.path.join(MODELS_DIR, 'label_classes.npy'), allow_pickle=True)
     y_encoded = le.transform(y)
-
-    _, X_test, _, y_test = train_test_split(
-        X, y_encoded, test_size=0.2,
-        random_state=42, stratify=y_encoded
-    )
+    test_summary = summarize_split('test')
+    X_test = X
+    y_test = y_encoded
 
     # ── Load model ──
     print("Loading model...")
@@ -113,6 +82,9 @@ def main():
     print(report)
 
     with open(f"{RESULTS_DIR}/metrics/classification_report.txt", 'w') as f:
+        f.write("Evaluation split: speaker-independent test\n")
+        f.write("Speakers: " + ", ".join(test_speakers) + "\n")
+        f.write("Samples: " + str(test_summary['num_samples']) + "\n\n")
         f.write(f"Test Accuracy: {accuracy:.2f}%\n\n")
         f.write(report)
     print("Saved: results/metrics/classification_report.txt")
@@ -162,6 +134,12 @@ def main():
     plt.savefig(f"{RESULTS_DIR}/figures/per_keyword_accuracy.png", dpi=150, bbox_inches='tight')
     plt.close()
     print("Saved: results/figures/per_keyword_accuracy.png")
+
+    with open(f"{RESULTS_DIR}/metrics/test_speakers.txt", 'w') as f:
+        for speaker in test_speakers:
+            speaker_count = int(np.sum(speaker_ids == speaker))
+            f.write(f"{speaker}\t{speaker_count}\n")
+    print("Saved: results/metrics/test_speakers.txt")
 
     print("\nAll results saved to results/ folder.")
 

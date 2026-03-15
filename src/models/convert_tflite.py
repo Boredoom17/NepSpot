@@ -4,31 +4,15 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
 import tensorflow as tf
+import sys
 
-MODELS_DIR    = "models/saved"
-TFLITE_DIR    = "models/tflite"
-PROCESSED_DIR = "data/processed"
-KEYWORDS = [
-    'baalnu', 'banda', 'suru', 'roknu',
-    'maathi', 'tala', 'arko', 'aghillo',
-    'feri', 'thik_chha', 'huncha', 'hoina'
-]
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from utils.dataset import KEYWORDS, MODELS_DIR, representative_sample_generator
+
+TFLITE_DIR = os.path.join(os.path.dirname(MODELS_DIR), 'tflite')
 
 def load_samples(max_samples=200):
-    samples, labels = [], []
-    for speaker in sorted(os.listdir(PROCESSED_DIR)):
-        for wi, word in enumerate(KEYWORDS):
-            folder = os.path.join(PROCESSED_DIR, speaker, word)
-            if not os.path.exists(folder):
-                continue
-            files = [f for f in os.listdir(folder) if f.endswith('.npy')]
-            for f in files[:2]:
-                mfcc = np.load(os.path.join(folder, f))
-                samples.append(mfcc)
-                labels.append(wi)
-                if len(samples) >= max_samples:
-                    return np.array(samples, dtype=np.float32)[..., np.newaxis], labels
-    return np.array(samples, dtype=np.float32)[..., np.newaxis], labels
+    return representative_sample_generator(split_name='train', max_samples=max_samples)
 
 def convert():
     os.makedirs(TFLITE_DIR, exist_ok=True)

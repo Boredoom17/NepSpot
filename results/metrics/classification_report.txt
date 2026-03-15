@@ -1,20 +1,24 @@
-Test Accuracy: 97.59%
+Evaluation split: speaker-independent test
+Speakers: VF7aLtPNrLeVP2d5R6ZEoy8IwTy1_Binod_Shrestha, 0AxWbZFr4UVXmwIAgpIsIayV57g2_Nephop_On, 6tRVcOaB5ohBY6EqSMddQyLNRoE2_Anonymous
+Samples: 1083
+
+Test Accuracy: 82.64%
 
               precision    recall  f1-score   support
 
-     aghillo       0.98      0.98      0.98       127
-        arko       0.98      0.96      0.97       127
-      baalnu       0.96      0.96      0.96       162
-       banda       0.99      0.95      0.97       150
-        feri       0.99      0.99      0.99       127
-       hoina       0.93      0.99      0.96       126
-      huncha       0.98      0.96      0.97       124
-      maathi       0.95      0.99      0.97       139
-       roknu       0.98      0.96      0.97       135
-        suru       0.99      0.99      0.99       148
-        tala       0.98      0.99      0.99       130
-   thik_chha       1.00      0.98      0.99       125
+     aghillo       0.72      0.98      0.83        90
+        arko       0.94      0.88      0.91        93
+      baalnu       0.78      0.87      0.82        90
+       banda       0.61      0.72      0.66        90
+        feri       0.96      0.86      0.91        90
+       hoina       0.86      0.63      0.73        90
+      huncha       0.92      0.91      0.92        90
+      maathi       0.90      0.81      0.85        90
+       roknu       0.80      0.77      0.78        90
+        suru       0.77      0.90      0.83        90
+        tala       0.90      0.68      0.77        90
+   thik_chha       0.88      0.91      0.90        90
 
-    accuracy                           0.98      1620
-   macro avg       0.98      0.98      0.98      1620
-weighted avg       0.98      0.98      0.98      1620
+    accuracy                           0.83      1083
+   macro avg       0.84      0.83      0.83      1083
+weighted avg       0.84      0.83      0.83      1083

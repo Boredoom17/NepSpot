@@ -2,23 +2,23 @@ Evaluation split: speaker-independent test
 Speakers: voicer28, voicer29, voicer30
 Samples: 1083
 
-Test Accuracy: 82.64%
+Test Accuracy: 84.86%
 
               precision    recall  f1-score   support
 
-     aghillo       0.72      0.98      0.83        90
-        arko       0.94      0.88      0.91        93
-      baalnu       0.78      0.87      0.82        90
-       banda       0.61      0.72      0.66        90
-        feri       0.96      0.86      0.91        90
-       hoina       0.86      0.63      0.73        90
-      huncha       0.92      0.91      0.92        90
-      maathi       0.90      0.81      0.85        90
-       roknu       0.80      0.77      0.78        90
-        suru       0.77      0.90      0.83        90
-        tala       0.90      0.68      0.77        90
-   thik_chha       0.88      0.91      0.90        90
+     aghillo       0.77      0.91      0.83        90
+        arko       0.81      0.95      0.87        93
+      baalnu       0.82      0.92      0.87        90
+       banda       0.77      0.69      0.73        90
+        feri       0.87      1.00      0.93        90
+       hoina       0.87      0.83      0.85        90
+      huncha       0.96      0.72      0.82        90
+      maathi       1.00      0.83      0.91        90
+       roknu       0.77      0.88      0.82        90
+        suru       0.81      0.84      0.83        90
+        tala       0.90      0.67      0.76        90
+   thik_chha       0.93      0.93      0.93        90
 
-    accuracy                           0.83      1083
-   macro avg       0.84      0.83      0.83      1083
-weighted avg       0.84      0.83      0.83      1083
+    accuracy                           0.85      1083
+   macro avg       0.86      0.85      0.85      1083
+weighted avg       0.86      0.85      0.85      1083

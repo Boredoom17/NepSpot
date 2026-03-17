@@ -1,7 +1,7 @@
 
 # NepSpot (Work in Progress)
 
-Hi! this is NepSpot — my attempt to bring Nepali voice commands to low-cost devices, fully offline, aiming to make keyword spotting in Nepali accessible for everyone, even on tiny hardware like the Arduino Nano 33 BLE Sense.
+Hi! this is NepSpot — my attempt to bring Nepali voice commands (for now on low scale) to low-cost devices, fully offline, aiming to make keyword spotting in Nepali accessible for everyone, even on tiny hardware like the Arduino Nano 33 BLE Sense.
 
 NepSpot collects real Nepali voice commands, extracts MFCC features, trains a compact DS-CNN model, and runs everything on-device — no internet needed. The goal: make Nepali speech tech practical for local, resource-constrained settings.
 

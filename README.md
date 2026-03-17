@@ -1,54 +1,54 @@
+
 # NepSpot (Work in Progress)
 
-NepSpot is an offline Nepali keyword spotting project for low-resource IoT and TinyML use cases. The current pipeline collects Nepali voice commands, extracts MFCC features, trains a DS-CNN model, evaluates it with speaker-independent splits, and exports deployable TFLite models for embedded hardware such as Arduino Nano 33 BLE Sense.
+Hi! this is NepSpot — my attempt to bring Nepali voice commands to low-cost devices, fully offline, aiming to make keyword spotting in Nepali accessible for everyone, even on tiny hardware like the Arduino Nano 33 BLE Sense.
+
+NepSpot collects real Nepali voice commands, extracts MFCC features, trains a compact DS-CNN model, and runs everything on-device — no internet needed. The goal: make Nepali speech tech practical for local, resource-constrained settings.
+
 
 ## Research Setup
 
-- Validation and test are speaker-independent.
-- All incomplete or partially recorded speakers are preserved in training only.
-- The fixed split lives in `configs/speaker_split_v1.json`.
-- Shared dataset loading utilities live in `src/utils/dataset.py`.
+- Validation and test splits are speaker-independent, so the model is tested on voices it’s never heard before.
+- Any incomplete or partial recordings are used for training only.
+- The split configuration is in `configs/speaker_split_v1.json`.
+- Dataset loading and helpers are in `src/utils/dataset.py`.
 
-This keeps personal and low-volume recordings in the project while protecting the main paper metrics from leakage.
+This way, I can use all the data I collected (even the messy bits) for training, but keep the evaluation fair and honest for the paper.
+
 
 ## Project Layout
 
-- `configs/`
-  Fixed experiment configuration, including the speaker split.
-- `data/raw/`
-  Original and augmented `.wav` files.
-- `data/processed/`
-  Normalized MFCC `.npy` features grouped by speaker and keyword.
-- `models/saved/`
-  Trained Keras model, label classes, MFCC stats, and SavedModel export.
-- `models/tflite/`
-  Float32 and INT8 deployment artifacts.
-- `results/figures/`
-  Evaluation plots.
-- `results/metrics/`
-  Classification reports and split-specific evaluation outputs.
-- `src/features/`
-  Feature extraction scripts.
-- `src/models/`
-  Training, architecture, and TFLite conversion.
-- `src/inference/`
-  Live microphone and interactive testing scripts.
-- `src/utils/`
-  Dataset helpers, augmentation, results export, and data download helpers.
+- `configs/` — experiment configs and speaker splits
+- `data/raw/` — all the original and augmented audio clips
+- `data/processed/` — MFCC features, organized by speaker and keyword
+- `models/saved/` — trained Keras models, label classes, stats
+- `models/tflite/` — TFLite models (float32 and INT8) for deployment
+- `results/figures/` — plots and visualizations
+- `results/metrics/` — evaluation reports and metrics
+- `src/features/` — feature extraction scripts
+- `src/models/` — model code and TFLite conversion
+- `src/inference/` — live mic and test scripts
+- `src/utils/` — helpers for data, augmentation, and results
 
-## Recommended Workflow
 
-1. Download or collect recordings into `data/raw/`.
-2. Augment under-recorded words with `src/utils/run_augmentation.py`.
-3. Rebuild normalized MFCC features with `src/features/extract_mfcc.py`.
-4. Train with `src/models/train.py`.
-5. Evaluate with `src/utils/save_results.py`.
-6. Export embedded models with `src/models/convert_tflite.py`.
-7. Run laptop-side inference checks with `src/inference/live_mic.py` or `src/inference/test_words.py`.
+## How to Reproduce (or Play With) NepSpot
 
-## Important Notes
+1. Put your recordings in `data/raw/` (or use mine if you have access).
+2. Run `src/utils/run_augmentation.py` to boost the dataset for under-represented words.
+3. Extract MFCC features with `src/features/extract_mfcc.py`.
+4. Train the model using `src/models/train.py`.
+5. Evaluate results with `src/utils/save_results.py`.
+6. Export TFLite models for Arduino with `src/models/convert_tflite.py`.
+7. Try live keyword spotting on your laptop with `src/inference/live_mic.py` or test individual words with `src/inference/test_words.py`.
 
-- If you add new recordings or new augmentations, rerun MFCC extraction before training.
-- Do not change the test speakers between model comparisons.
-- For the paper's main table, report only the fixed speaker-independent split.
-- If you want an ablation using partial speakers, keep the same validation and test sets and only change the train set.
+
+## Notes & Tips
+
+- If you add new audio or augmentations, don’t forget to re-extract MFCCs before retraining.
+- Always keep the test speakers the same for fair comparisons.
+- For the main results, only use the fixed speaker-independent split.
+- If you want to experiment with partial speakers, just change the train set—leave validation and test untouched.
+
+---
+
+If you have questions, want to collaborate, or just want to chat about Nepali speech tech, feel free to reach out!

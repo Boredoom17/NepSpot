@@ -1,4 +1,4 @@
-# NepSpot
+# NepSpot (Work in Progress)
 
 NepSpot is an offline Nepali keyword spotting project for low-resource IoT and TinyML use cases. The current pipeline collects Nepali voice commands, extracts MFCC features, trains a DS-CNN model, evaluates it with speaker-independent splits, and exports deployable TFLite models for embedded hardware such as Arduino Nano 33 BLE Sense.
 

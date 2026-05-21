@@ -1,0 +1,35 @@
+BC-ResNet ablation — NO SpecAugment, NO Mixup
+Seed: 42
+Speakers (test): voicer28, voicer29, voicer30
+Test samples: 361 (voicer28-30 originals only)
+Train pipeline: from_tensor_slices -> shuffle(4096, seed=42) -> batch(32) -> prefetch(1)
+Training time:  105.6 min
+INT8 model size (KB): 87.95
+INT8 input qparams:   scale=0.051455 zero_point=57
+INT8 test accuracy:   75.35%
+INT8 macro F1:        0.7576
+
+TFLite output: models/tflite/bcresnet_no_specaug_int8.tflite
+
+Baseline reference (BC-ResNet with SpecAug+Mixup, seed=42):
+  INT8 test accuracy: 84.76%
+
+              precision    recall  f1-score   support
+
+     aghillo     1.0000    0.7333    0.8462        30
+        arko     1.0000    0.5484    0.7083        31
+      baalnu     0.9200    0.7667    0.8364        30
+       banda     0.7619    0.5333    0.6275        30
+        feri     0.7812    0.8333    0.8065        30
+       hoina     0.5918    0.9667    0.7342        30
+      huncha     0.9630    0.8667    0.9123        30
+      maathi     0.7838    0.9667    0.8657        30
+       roknu     0.6786    0.6333    0.6552        30
+        suru     0.6757    0.8333    0.7463        30
+        tala     0.3590    0.4667    0.4058        30
+   thik_chha     1.0000    0.9000    0.9474        30
+
+    accuracy                         0.7535       361
+   macro avg     0.7929    0.7540    0.7576       361
+weighted avg     0.7935    0.7535    0.7575       361
+

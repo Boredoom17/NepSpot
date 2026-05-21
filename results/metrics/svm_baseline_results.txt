@@ -1,0 +1,43 @@
+SVM Baseline Results
+====================
+
+Feature: MFCC (40×32) flattened to 1280-dim vectors
+Kernel: RBF
+Normalization: StandardScaler
+
+C=1:
+  Test Accuracy: 53.46%
+  Macro F1: 0.524
+
+C=10:
+  Test Accuracy: 51.52%
+  Macro F1: 0.506
+
+C=100:
+  Test Accuracy: 51.52%
+  Macro F1: 0.506
+
+BEST MODEL: C=1
+  Test Accuracy: 53.46%
+  95% CI (bootstrap, 1000 iter): [48.48%, 58.73%]
+  Macro F1: 0.524
+
+Per-class F1:
+  aghillo: 0.531
+  arko: 0.769
+  baalnu: 0.298
+  banda: 0.410
+  feri: 0.923
+  hoina: 0.429
+  huncha: 0.050
+  maathi: 0.704
+  roknu: 0.400
+  suru: 0.500
+  tala: 0.644
+  thik_chha: 0.630
+
+Comparison to neural models:
+  - Vanilla CNN: 84.49% (best single-seed)
+  - DS-CNN: 80.06%
+  - BC-ResNet: 81.16%
+  - SVM: 53.46% (INFERIOR to CNN)

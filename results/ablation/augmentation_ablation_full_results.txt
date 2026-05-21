@@ -1,0 +1,88 @@
+Augmentation Ablation Study (Complete)
+=======================================
+
+Configuration:
+- Seed: 42 (for consistency)
+- Augmentation: SpecAugment + Mixup
+- Quantization: INT8 (full-integer quantization)
+- Test set: voicer28-30 (n=361)
+
+Results:
+Model          | WITH Aug (%) | WITHOUT Aug (%) | Delta (pp)
+─────────────────────────────────────────────────────────────
+DS-CNN         | 78.12        | 79.50           | +1.38
+Vanilla CNN    | 84.76        | 86.70           | +1.94
+BC-ResNet      | 84.76        | 75.35           | -9.41
+
+Detailed Metrics:
+
+DS-CNN:
+  WITH augmentation (seed=42):    78.12% accuracy, F1=0.7747
+  WITHOUT augmentation (seed=42): 79.50% accuracy, F1=0.7914
+  Delta: +1.38 pp improvement WITHOUT augmentation
+  Status: Augmentation shows NO benefit (within noise band ±1.15pp for N=3)
+
+Vanilla CNN:
+  WITH augmentation (seed=42):    84.76% accuracy, F1=0.8401
+  WITHOUT augmentation (seed=42): 86.70% accuracy, F1=0.8688
+  Delta: +1.94 pp improvement WITHOUT augmentation
+  Status: Augmentation HURTS performance by ~2 percentage points
+
+BC-ResNet:
+  WITH augmentation (seed=42):    84.76% accuracy, F1=0.8474
+  WITHOUT augmentation (seed=42): 75.35% accuracy, F1=0.7576
+  Delta: -9.41 pp degradation WITHOUT augmentation
+  Status: Augmentation CRITICAL for BC-ResNet; model fails without it
+
+Interpretation:
+===============
+
+The ablation reveals a complex relationship between SpecAugment+Mixup and model architecture:
+
+1. DS-CNN: Augmentation neutral/slightly harmful (~+1.4pp gain from removal)
+   - Despite being the lightest model, DS-CNN performs equivalently with or without augmentation
+   - The upstream dataset augmentation (Pass 1/Pass 2 speed & noise) provides sufficient signal
+
+2. Vanilla CNN: Augmentation slightly harmful (~+1.9pp gain from removal)
+   - Like DS-CNN, Vanilla CNN benefits from the simpler training recipe without SpecAugment+Mixup
+   - Suggests the augmentation pipeline may introduce noise on this small dataset (12 classes, ~10,800 train samples)
+
+3. BC-ResNet: Augmentation ESSENTIAL (+9.4pp degradation from removal)
+   - This deeper architecture with residual connections depends critically on augmentation
+   - WITHOUT augmentation, BC-ResNet's validation accuracy plateau is much lower
+   - Early stopping may trigger earlier due to overfitting on non-augmented small dataset
+
+Recommendation:
+===============
+
+CONDITIONAL AUGMENTATION STRATEGY:
+
+Option A (Conservative - Recommended for Paper):
+- Use augmentation for BC-ResNet only (architectures that benefit from regularization)
+- Remove augmentation for Vanilla CNN and DS-CNN (lighter models that don't need it)
+- Provides best per-architecture performance
+
+Option B (Uniform - Current Implementation):
+- Keep augmentation across all models for consistency
+- Slight performance penalty on Vanilla CNN and DS-CNN (~2pp each)
+- Simpler to implement and explain
+
+Option C (Remove Entirely - NOT Recommended):
+- Remove augmentation across all models
+- BC-ResNet would drop to 75.35% (unacceptable 9.4pp loss)
+
+CHOSEN APPROACH FOR PAPER:
+Apply augmentation uniformly across all models for pipeline consistency.
+Note in paper that SpecAugment+Mixup is "not beneficial for lighter architectures
+(DS-CNN, Vanilla CNN) but essential for deeper residual networks (BC-ResNet)."
+
+The small dataset size and heavy upstream augmentation make the additional
+SpecAugment+Mixup pipeline redundant for simpler models, but critical regularization
+for complex architectures prone to overfitting.
+
+---
+Generated: May 21, 2024
+Source data:
+  - DS-CNN: results/metrics/dscnn_seed42_report.txt (with) + dscnn_no_specaug_seed42_report.txt (without)
+  - Vanilla CNN: results/seeds_experiment_artifacts/vanilla_seed42_report.txt (with) + results/metrics/vanilla_no_specaug_report.txt (without)
+  - BC-ResNet: results/seeds_experiment_artifacts/bcresnet_seed42_report.txt (with) + results/metrics/bcresnet_no_specaug_report.txt (without)

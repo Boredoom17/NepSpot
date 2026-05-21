@@ -1,0 +1,35 @@
+Vanilla CNN ablation — NO SpecAugment, NO Mixup
+Seed: 42
+Speakers (test): voicer28, voicer29, voicer30
+Test samples: 361 (voicer28-30 originals only)
+Train pipeline: from_tensor_slices -> shuffle(4096, seed=42) -> batch(32) -> prefetch(1)
+Training time:  5.5 min
+INT8 model size (KB): 122.55
+INT8 input qparams:   scale=0.051455 zero_point=57
+INT8 test accuracy:   86.70%
+INT8 macro F1:        0.8688
+
+TFLite output: models/tflite/vanilla_no_specaug_int8.tflite
+
+Baseline reference (Vanilla CNN with SpecAug+Mixup, seed=42):
+  INT8 test accuracy: 84.76%
+
+              precision    recall  f1-score   support
+
+     aghillo     0.9259    0.8333    0.8772        30
+        arko     0.9600    0.7742    0.8571        31
+      baalnu     0.8462    0.7333    0.7857        30
+       banda     0.8750    0.7000    0.7778        30
+        feri     0.9643    0.9000    0.9310        30
+       hoina     0.6000    1.0000    0.7500        30
+      huncha     0.8529    0.9667    0.9062        30
+      maathi     0.9333    0.9333    0.9333        30
+       roknu     0.9333    0.9333    0.9333        30
+        suru     0.8529    0.9667    0.9062        30
+        tala     0.9200    0.7667    0.8364        30
+   thik_chha     0.9643    0.9000    0.9310        30
+
+    accuracy                         0.8670       361
+   macro avg     0.8857    0.8673    0.8688       361
+weighted avg     0.8859    0.8670    0.8688       361
+

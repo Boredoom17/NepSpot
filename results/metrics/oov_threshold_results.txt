@@ -1,0 +1,39 @@
+OOV Confidence Threshold Analysis
+============================================================
+
+Test Set: 361 in-vocabulary samples (from bootstrap_predictions.npz)
+OOV Set: 100 non-keyword clips (_unknown_test + _silence_test)
+Model: BC-ResNet INT8 (bc_resnet_int8.tflite)
+
+Baseline Performance:
+  Test accuracy: 81.16%
+
+Threshold Sweep Results:
+Threshold | FAR (%) | FRR (%) | TP  | FRN | FA  | CR
+------------------------------------------------------------
+  0.30    |    0.00 |    0.00 | 293 |   0 |   0 | 100
+  0.35    |    0.00 |    0.34 | 292 |   1 |   0 | 100
+  0.40    |    0.00 |    1.71 | 288 |   5 |   0 | 100
+  0.45    |    0.00 |    3.75 | 282 |  11 |   0 | 100
+  0.50    |    0.00 |    4.78 | 279 |  14 |   0 | 100
+  0.55    |    0.00 |    7.51 | 271 |  22 |   0 | 100
+  0.60    |    0.00 |   12.63 | 256 |  37 |   0 | 100
+  0.65    |    0.00 |   18.09 | 240 |  53 |   0 | 100
+  0.70    |    0.00 |   26.28 | 216 |  77 |   0 | 100
+  0.75    |    0.00 |   38.23 | 181 | 112 |   0 | 100
+  0.80    |    0.00 |   52.90 | 138 | 155 |   0 | 100
+  0.85    |    0.00 |   68.94 |  91 | 202 |   0 | 100
+  0.90    |    0.00 |   80.89 |  56 | 237 |   0 | 100
+  0.95    |    0.00 |   92.15 |  23 | 270 |   0 | 100
+
+============================================================
+OPERATING POINT (FAR ≤ 10%):
+  Threshold: 0.30
+  FAR (False Acceptance Rate): 0.00%
+  FRR (False Rejection Rate): 0.00%
+  Effective accuracy after rejection: 85.25%
+
+Interpretation:
+  - Of 100 OOV samples, 0 (0.00%) are wrongly accepted
+  - Of 293 correct test predictions, 0 (0.00%) are rejected
+  - Combined: 393/461 samples correctly classified

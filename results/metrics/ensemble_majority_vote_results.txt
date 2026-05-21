@@ -1,0 +1,34 @@
+Majority Vote Ensemble Results (BC-ResNet INT8)
+================================================
+
+Seeds: 42, 123, 456
+Tiebreaker: seed 42
+Test set: n=361
+
+Individual seed accuracies:
+  Seed 42: 84.76%
+  Seed 123: 84.21%
+  Seed 456: 80.33%
+
+Majority vote ensemble:
+  Accuracy: 88.64%
+  Macro F1: 0.885
+
+Improvement over best single seed:
+  Best single: 84.76% (seed 42)
+  Ensemble: 88.64%
+  Gain: +3.88 pp
+
+Per-class F1 (ensemble):
+  aghillo: 0.918
+  arko: 0.949
+  baalnu: 0.868
+  banda: 0.793
+  feri: 0.906
+  hoina: 0.857
+  huncha: 0.968
+  maathi: 0.967
+  roknu: 0.867
+  suru: 0.825
+  tala: 0.717
+  thik_chha: 0.983

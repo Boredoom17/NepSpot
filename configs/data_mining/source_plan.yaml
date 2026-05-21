@@ -1,0 +1,35 @@
+project: NepSpot
+version: 1
+objective: Build NepSpot-Combined with in-house + Common Voice + OpenSLR + targeted YouTube
+target:
+  effective_speakers_min: 100
+  keywords: [baalnu, banda, suru, roknu, maathi, tala, arko, aghillo, feri, thik_chha, huncha, hoina]
+quality_rules:
+  sample_rate: 16000
+  channels: 1
+  clip_duration_seconds: 1.0
+  min_snr_db: 8
+  manual_review_ratio: 0.2
+  deduplicate: true
+split_policy:
+  keep_existing_val_test_unchanged: true
+  add_new_external_speakers_to_train_only: true
+sources:
+  commonvoice:
+    enabled: true
+    priority: high
+    status: planned
+  openslr:
+    enabled: true
+    priority: medium
+    status: planned
+    license: CC-BY-SA 4.0
+    citation: Kjartansson et al., "Crowd-Sourced Speech Corpora for Javanese, Sundanese, Sinhala, Nepali, and Bangladeshi Bengali", SLTU 2018
+    note: Preserve attribution and share-alike obligations when using OpenSLR-54.
+  youtube:
+    enabled: true
+    priority: targeted
+    status: planned
+legal:
+  publish_raw_youtube_audio: false
+  store_provenance: true

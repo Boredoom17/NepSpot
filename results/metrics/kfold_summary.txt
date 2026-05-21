@@ -1,0 +1,31 @@
+5-Fold Cross-Validation Results
+==================================================
+
+Fold compositions:
+  Fold 1: test=voicer1,voicer2,voicer3,voicer4,voicer5 | val=voicer6,voicer7,voicer8
+  Fold 2: test=voicer6,voicer7,voicer8,voicer9,voicer10 | val=voicer11,voicer12,voicer13
+  Fold 3: test=voicer11,voicer12,voicer13,voicer14,voicer15 | val=voicer16,voicer17,voicer20
+  Fold 4: test=voicer16,voicer17,voicer20,voicer22,voicer24 | val=voicer25,voicer26,voicer27
+  Fold 5: test=voicer25,voicer26,voicer27,voicer28,voicer29 | val=voicer30,voicer1,voicer2
+
+Vanilla CNN:
+  Fold 1: float32 72.04%  int8 71.35%  macroF1 0.7270
+  Fold 2: float32 76.16%  int8 75.32%  macroF1 0.7615
+  Mean float32: 74.10% ± 2.06%
+  Mean int8:    73.33% ± 1.98%
+  Mean macroF1: 0.7442 ± 0.0172
+
+DS-CNN:
+  Fold 1: float32 68.85%  int8 66.73%  macroF1 0.6871
+  Fold 2: float32 67.53%  int8 67.58%  macroF1 0.6565
+  Mean float32: 68.19% ± 0.66%
+  Mean int8:    67.16% ± 0.42%
+  Mean macroF1: 0.6718 ± 0.0153
+
+BC-ResNet:
+  Fold 1: float32 68.70%  int8 69.19%  macroF1 0.6933
+  Fold 2: float32 66.05%  int8 65.11%  macroF1 0.6520
+  Mean float32: 67.38% ± 1.32%
+  Mean int8:    67.15% ± 2.04%
+  Mean macroF1: 0.6726 ± 0.0206
+

@@ -1,0 +1,54 @@
+BC-ResNet PTQ (post-training INT8 quantisation) - seed 42
+Reason: fair INT8 comparison vs Vanilla CNN / DS-CNN (PTQ-only).
+
+Float pre-QAT checkpoint: models/saved/bc_resnet_phase1_float_best.keras
+Seed: 42
+Evaluation split: speaker-independent test (originals only, no _aug_)
+Test speakers: voicer28, voicer29, voicer30
+Test samples: 361
+
+PTQ converter settings:
+  optimizations:                            [tf.lite.Optimize.DEFAULT]
+  representative_dataset:                   200 train samples (same as QAT path)
+  target_spec.supported_ops:                [TFLITE_BUILTINS_INT8]
+  inference_input_type / output_type:       int8 / int8
+  experimental_enable_resource_variables:   True
+  experimental_new_quantizer:               True
+  _experimental_disable_per_channel:        True
+
+INT8 model size (KB):           70.05
+INT8 input qparams:             scale=0.051455 zero_point=57
+INT8 PTQ test accuracy:         84.21%
+INT8 PTQ macro F1:              0.8430
+
+TFLite output: models/tflite/bc_resnet_int8_ptq_seed42.tflite
+
+Cross-method reference for the same float-42 checkpoint:
+  QAT INT8 (different seeds, in-train pipeline):
+    seed 42  : 84.76% / F1 0.847 (h5-weight-transferred recovered)
+    seed 123 : 84.21% / F1 0.839
+    seed 456 : 80.33% / F1 0.805
+    N=3 mean : 81.72% +/- 2.20%
+  Vanilla CNN INT8 PTQ (N=3 mean): 83.75% +/- 1.12% (F1 0.834)
+  DS-CNN     INT8 PTQ (N=3 mean): 79.04% +/- 1.15% (F1 0.785)
+
+Per-class classification report (INT8 PTQ):
+              precision    recall  f1-score   support
+
+     aghillo     0.9600    0.8000    0.8727        30
+        arko     0.9630    0.8387    0.8966        31
+      baalnu     1.0000    0.6333    0.7755        30
+       banda     0.6842    0.8667    0.7647        30
+        feri     0.8571    1.0000    0.9231        30
+       hoina     0.6383    1.0000    0.7792        30
+      huncha     1.0000    0.9667    0.9831        30
+      maathi     1.0000    0.9333    0.9655        30
+       roknu     0.8621    0.8333    0.8475        30
+        suru     0.6857    0.8000    0.7385        30
+        tala     0.7391    0.5667    0.6415        30
+   thik_chha     1.0000    0.8667    0.9286        30
+
+    accuracy                         0.8421       361
+   macro avg     0.8658    0.8421    0.8430       361
+weighted avg     0.8661    0.8421    0.8432       361
+

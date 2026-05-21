@@ -1,0 +1,26 @@
+McNemar Test Results (Test Set, n=361)
+================================================================================
+
+Comparison 1: BC-ResNet vs DS-CNN
+--------------------------------------------------------------------------------
+Contingency Table:
+  Both models correct: 259
+  Both models wrong: 38
+  BC-ResNet correct only: 34
+  DS-CNN correct only: 30
+
+Chi-squared statistic: 0.250000
+P-value: 0.617075
+Significance: No significant difference
+
+Comparison 2: BC-ResNet vs Vanilla CNN
+--------------------------------------------------------------------------------
+Contingency Table:
+  Both models correct: 266
+  Both models wrong: 29
+  BC-ResNet correct only: 27
+  Vanilla CNN correct only: 39
+
+Chi-squared statistic: 2.181818
+P-value: 0.139649
+Significance: No significant difference

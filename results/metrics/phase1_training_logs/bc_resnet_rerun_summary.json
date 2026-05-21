@@ -1,0 +1,9 @@
+{
+  "command": [
+    "/Users/ad/codes/.venv310/bin/python3",
+    "src/models/train_bcresnet_phase1.py"
+  ],
+  "log_path": "/Users/ad/codes/NepSpot/results/metrics/phase1_training_logs/bc_resnet_phase1_qat_rerun.log",
+  "exit_code": 1,
+  "wall_clock_seconds": 1926.683207988739
+}

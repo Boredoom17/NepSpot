@@ -1,0 +1,37 @@
+Model: BC-ResNet
+Fold: 2/5
+Train wall time: 3650.8 s
+
+Train speakers (486): voicer1, voicer2, voicer3, voicer4, voicer5, voicer14, voicer15, voicer16, voicer17, voicer20, voicer22, voicer24, voicer25, voicer26, voicer27, voicer28, voicer29, voicer30, slr_001, slr_002...
+Val speakers: voicer11, voicer12, voicer13
+Test speakers: voicer6, voicer7, voicer8, voicer9, voicer10, _silence_test, _unknown_test
+Train samples: 11524
+Val samples:   1064
+Test samples:  1900
+
+Float32 test accuracy: 66.05%
+Float32 macro F1:      0.6520
+INT8 test accuracy:    65.11%
+INT8 macro F1:         0.6449
+INT8 model size (KB):  87.22
+
+              precision    recall  f1-score   support
+
+     aghillo       0.57      0.79      0.66       150
+        arko       0.61      0.76      0.67       150
+      baalnu       0.74      0.49      0.59       150
+       banda       0.60      0.55      0.58       150
+        feri       0.96      0.79      0.87       150
+       hoina       0.82      0.31      0.45       150
+      huncha       0.92      0.75      0.82       150
+      maathi       0.93      0.84      0.88       150
+       roknu       0.67      0.64      0.66       150
+     silence       0.22      0.96      0.35        50
+        suru       0.72      0.68      0.70       150
+        tala       0.70      0.41      0.51       150
+   thik_chha       0.93      0.71      0.81       150
+     unknown       0.41      0.96      0.57        50
+
+    accuracy                           0.66      1900
+   macro avg       0.70      0.69      0.65      1900
+weighted avg       0.74      0.66      0.67      1900

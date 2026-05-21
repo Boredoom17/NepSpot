@@ -1,0 +1,29 @@
+{
+  "ds_cnn_phase1": {
+    "command": [
+      "/Users/ad/codes/.venv310/bin/python3",
+      "src/models/train_phase1.py"
+    ],
+    "log_path": "/Users/ad/codes/NepSpot/results/metrics/phase1_training_logs/ds_cnn_phase1.log",
+    "exit_code": 0,
+    "wall_clock_seconds": 437.8651089668274
+  },
+  "vanilla_phase1": {
+    "command": [
+      "/Users/ad/codes/.venv310/bin/python3",
+      "src/models/train_vanilla_phase1.py"
+    ],
+    "log_path": "/Users/ad/codes/NepSpot/results/metrics/phase1_training_logs/vanilla_phase1.log",
+    "exit_code": 0,
+    "wall_clock_seconds": 214.2035472393036
+  },
+  "bc_resnet_phase1_qat": {
+    "command": [
+      "/Users/ad/codes/.venv310/bin/python3",
+      "src/models/train_bcresnet_phase1.py"
+    ],
+    "log_path": "/Users/ad/codes/NepSpot/results/metrics/phase1_training_logs/bc_resnet_phase1_qat.log",
+    "exit_code": 1,
+    "wall_clock_seconds": 2665.61856174469
+  }
+}

@@ -1,0 +1,30 @@
+BC-ResNet INT8 (recovered via h5 weight transfer)
+Checkpoint source:  models/saved/bc_resnet_phase1_best.keras
+TFLite output:      models/tflite/bc_resnet_int8_recovered.tflite
+Test samples:       361 (voicer28-30 originals only)
+Transferred layers: 87
+Skipped (frozen broadcast): 12
+INT8 size:          70.05 KB
+INT8 input qparams: scale=0.051455 zero_point=57
+INT8 test accuracy: 84.76%
+INT8 macro F1:      0.8474
+
+              precision    recall  f1-score   support
+
+     aghillo       0.90      0.93      0.92        30
+        arko       1.00      0.84      0.91        31
+      baalnu       1.00      0.70      0.82        30
+       banda       0.75      0.70      0.72        30
+        feri       0.85      0.97      0.91        30
+       hoina       0.69      0.97      0.81        30
+      huncha       0.90      0.93      0.92        30
+      maathi       0.88      0.97      0.92        30
+       roknu       0.84      0.87      0.85        30
+        suru       0.89      0.80      0.84        30
+        tala       0.63      0.63      0.63        30
+   thik_chha       0.96      0.87      0.91        30
+
+    accuracy                           0.85       361
+   macro avg       0.86      0.85      0.85       361
+weighted avg       0.86      0.85      0.85       361
+

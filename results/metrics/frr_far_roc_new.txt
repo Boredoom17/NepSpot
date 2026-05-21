@@ -1,0 +1,52 @@
+==============================================================================
+FRR / FAR / ROC — BC-ResNet INT8 (new architecture, seed 42)
+==============================================================================
+Model:           models/tflite/bc_resnet_int8_phase1.tflite
+Test split:      voicer28-30 originals (no _aug_ files)
+Test samples:    361
+Test speakers:   voicer28, voicer29, voicer30
+INT8 input qparams:  scale=0.076592  zero_point=71
+INT8 output qparams: scale=0.003906  zero_point=-128
+
+Per-keyword (FRR/FAR/EER as fractions; AUC dimensionless)
+------------------------------------------------------------------------------
+Keyword         AUC     EER   EER thr   FRR@FAR=0.1%   FRR@FAR=1%   FRR@FAR=5%
+------------------------------------------------------------------------------
+aghillo      0.9916   6.67%     0.056         46.67%       13.33%        6.67%
+arko         0.9962   3.23%     0.111         22.58%       16.13%        3.23%
+baalnu       0.9632  13.33%     0.032         36.67%       23.33%       13.33%
+banda        0.9829   7.25%     0.204         46.67%       33.33%       10.00%
+feri         0.9998   0.30%     0.487          6.67%        0.00%        0.00%
+hoina        0.9948   3.33%     0.402         33.33%       16.67%        3.33%
+huncha       0.9987   2.22%     0.108          6.67%        6.67%        0.00%
+maathi       0.9994   0.91%     0.178          6.67%        0.00%        0.00%
+roknu        0.9849   6.04%     0.136         80.00%       26.67%        6.67%
+suru         0.9479  13.33%     0.144         73.33%       33.33%       20.00%
+tala         0.8289  26.67%     0.067         80.00%       73.33%       46.67%
+thik_chha    0.9966   3.33%     0.064         16.67%       10.00%        3.33%
+
+Macro averages (unweighted across 12 keywords)
+------------------------------------------------------------------------------
+  AUC (per-keyword mean ± std):        0.9738 ± 0.0484
+  AUC of macro-ROC (interp on FAR grid): 0.9722
+  EER  (per-keyword mean ± std):       7.22% ± 7.47%
+  FRR @ FAR=1% (per-keyword mean ± std): 21.07% ± 19.98%
+
+Operating-point summary at 1% FAR (per-keyword)
+------------------------------------------------------------------------------
+Keyword          FRR    Threshold (logit)   Achieved FAR
+------------------------------------------------------------------------------
+aghillo       13.33%               0.1914         0.906%
+arko          16.13%               0.2305         0.909%
+baalnu        23.33%               0.0938         0.906%
+banda         33.33%               0.5898         0.906%
+feri           0.00%               0.4844         0.302%
+hoina         16.67%               0.7266         0.604%
+huncha         6.67%               0.3477         0.000%
+maathi         0.00%               0.1641         0.906%
+roknu         26.67%               0.4453         0.906%
+suru          33.33%               0.5977         0.604%
+tala          73.33%               0.5234         0.604%
+thik_chha     10.00%               0.2031         0.604%
+
+Figure: results/figures/roc_curves_new.png

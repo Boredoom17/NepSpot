@@ -1,0 +1,51 @@
+Model: DS-CNN
+Fold:  4/5
+Seed:  42
+
+Train speakers (480): voicers=['voicer1', 'voicer20', 'voicer16', 'voicer2', 'voicer9', 'voicer6', 'voicer12', 'voicer4', 'voicer22', 'voicer17', 'voicer14', 'voicer3', 'voicer15', 'voicer7']; + 443 slr_* + 23 speaker_*
+Val   speakers (2): ['voicer8', 'voicer11']
+Test  speakers (4): ['voicer10', 'voicer24', 'voicer5', 'voicer13']
+
+Train samples (incl. _aug_):    20152
+Val   samples (originals only): 240
+Test  samples (originals only): 400
+
+INT8 size (KB):       33.69
+INT8 input qparams:   scale=0.060194 zero_point=68
+INT8 test accuracy:   65.25%
+INT8 macro F1:        0.6333
+Training + eval time: 13.46 min
+
+Per-class INT8 F1
+----------------------------------------
+  aghillo      0.6047
+  arko         0.7160
+  baalnu       0.3774
+  banda        0.6526
+  feri         0.8696
+  hoina        0.5862
+  huncha       0.5952
+  maathi       0.7097
+  roknu        0.4889
+  suru         0.8312
+  tala         0.6102
+  thik_chha    0.5581
+
+              precision    recall  f1-score   support
+
+     aghillo     1.0000    0.4333    0.6047        30
+        arko     0.5686    0.9667    0.7160        30
+      baalnu     0.7692    0.2500    0.3774        40
+       banda     0.5636    0.7750    0.6526        40
+        feri     0.7692    1.0000    0.8696        30
+       hoina     0.6071    0.5667    0.5862        30
+      huncha     0.4630    0.8333    0.5952        30
+      maathi     0.6226    0.8250    0.7097        40
+       roknu     0.7333    0.3667    0.4889        30
+        suru     0.8649    0.8000    0.8312        40
+        tala     0.6207    0.6000    0.6102        30
+   thik_chha     0.9231    0.4000    0.5581        30
+
+    accuracy                         0.6525       400
+   macro avg     0.7088    0.6514    0.6333       400
+weighted avg     0.7084    0.6525    0.6343       400

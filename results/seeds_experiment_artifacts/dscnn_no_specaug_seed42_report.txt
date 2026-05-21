@@ -1,0 +1,35 @@
+DS-CNN ablation — NO SpecAugment, NO Mixup
+Seed: 42
+Speakers (test): voicer28, voicer29, voicer30
+Test samples: 361 (voicer28-30 originals only)
+Train pipeline: from_tensor_slices -> shuffle(4096, seed=42) -> batch(32) -> prefetch(1)
+Training time:  18.9 min
+INT8 model size (KB): 33.69
+INT8 input qparams:   scale=0.051455 zero_point=57
+INT8 test accuracy:   79.50%
+INT8 macro F1:        0.7914
+
+TFLite output: models/tflite/dscnn_no_specaug_int8.tflite
+
+Baseline reference (DS-CNN with SpecAug+Mixup, N=3 seeds):
+  INT8 test accuracy: 79.04% +/- 1.15%
+
+              precision    recall  f1-score   support
+
+     aghillo     0.8636    0.6333    0.7308        30
+        arko     0.8235    0.9032    0.8615        31
+      baalnu     1.0000    0.4000    0.5714        30
+       banda     0.6944    0.8333    0.7576        30
+        feri     0.8710    0.9000    0.8852        30
+       hoina     0.6250    1.0000    0.7692        30
+      huncha     1.0000    0.9000    0.9474        30
+      maathi     0.9286    0.8667    0.8966        30
+       roknu     0.9615    0.8333    0.8929        30
+        suru     0.5918    0.9667    0.7342        30
+        tala     0.6400    0.5333    0.5818        30
+   thik_chha     1.0000    0.7667    0.8679        30
+
+    accuracy                         0.7950       361
+   macro avg     0.8333    0.7947    0.7914       361
+weighted avg     0.8333    0.7950    0.7916       361
+

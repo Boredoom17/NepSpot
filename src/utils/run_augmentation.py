@@ -1,11 +1,18 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from augment import augment_file, load_audio
+from augment import augment_file, load_audio, speed_stretch
 import soundfile as sf
 
 RAW_DIR = "data/raw"
 TARGET  = 10
+SPEED_NOISE_FACTOR = 0.004
+
+EXCLUDED_SPEAKERS = {
+    'voicer25', 'voicer26', 'voicer27',
+    'voicer28', 'voicer29', 'voicer30',
+    '_silence_test', '_unknown_test',
+}
 
 KEYWORDS = [
     'baalnu', 'banda', 'suru', 'roknu',
@@ -84,37 +91,47 @@ def fill_to_target(speaker, word, folder):
     return added
 
 def augment_for_speed(speaker, word, folder):
-    """Create fast + fast+noisy versions of every real clip"""
+    """Create slow, slow_noisy, fast, fast_noisy versions of every real clip."""
     import numpy as np
-    import librosa
-    
+
     real_clips = sorted([
         os.path.join(folder, f)
         for f in os.listdir(folder)
         if f.endswith('.wav') and 'aug' not in f
     ])
-    
+
+    variants = [
+        ('slow', False, 'aug_slow'),
+        ('slow', True,  'aug_slow_noisy'),
+        ('fast', False, 'aug_fast'),
+        ('fast', True,  'aug_fast_noisy'),
+    ]
+
     added = 0
     for clip_path in real_clips:
-        basename  = os.path.splitext(os.path.basename(clip_path))[0]
-        fast_path = os.path.join(folder, f"{basename}_aug_fast.wav")
-        
-        if os.path.exists(fast_path):
+        basename = os.path.splitext(os.path.basename(clip_path))[0]
+        out_paths = {
+            suffix: os.path.join(folder, f"{basename}_{suffix}.wav")
+            for _, _, suffix in variants
+        }
+
+        if all(os.path.exists(p) for p in out_paths.values()):
             continue
-        
+
         try:
             audio, sr = load_audio(clip_path)
-            rate      = np.random.uniform(1.2, 1.35)
-            fast      = librosa.effects.time_stretch(audio, rate=rate)
-            sf.write(fast_path, fast, sr)
-            
-            noisy_path = os.path.join(folder, f"{basename}_aug_fast_noisy.wav")
-            noisy = fast + 0.004 * np.random.randn(len(fast))
-            sf.write(noisy_path, noisy, sr)
-            added += 2
+            for mode, add_noise_flag, suffix in variants:
+                out_path = out_paths[suffix]
+                if os.path.exists(out_path):
+                    continue
+                stretched = speed_stretch(audio, mode=mode)
+                if add_noise_flag:
+                    stretched = stretched + SPEED_NOISE_FACTOR * np.random.randn(len(stretched))
+                sf.write(out_path, stretched, sr)
+                added += 1
         except Exception as e:
             print(f"      ✗ {e}")
-    
+
     return added
 
 def main():
@@ -141,9 +158,13 @@ def main():
             print(f"  {name}")
             total_added += fill_to_target(speaker, word, folder)
 
-    # Pass 2 — speed augment ALL real clips
-    print(f"\nAdding speed augmentation to all real clips...")
+    # Pass 2 — speed augment ALL real clips (training speakers only)
+    print(f"\nAdding slow + fast speed augmentation to training speakers...")
+    print(f"Skipping val/test: {sorted(EXCLUDED_SPEAKERS)}")
     for speaker in speakers:
+        if speaker in EXCLUDED_SPEAKERS:
+            print(f"  ⏭  {speaker} (val/test)")
+            continue
         for word in KEYWORDS:
             folder = os.path.join(RAW_DIR, speaker, word)
             if not os.path.exists(folder):

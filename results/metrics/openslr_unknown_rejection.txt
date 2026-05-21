@@ -1,0 +1,93 @@
+Out-of-Vocabulary (Unknown) Rejection Test
+==================================================
+
+Dataset: 60 non-keyword audio clips from silence & unknown directories
+Model: BC-ResNet INT8 (quantized)
+
+Results:
+  Total clips: 60
+  Accepted as keywords: 60
+  False Acceptance Rate (FAR): 100.00%
+
+Breakdown by keyword (false acceptances):
+  arko: 7 clips
+  baalnu: 2 clips
+  banda: 8 clips
+  feri: 1 clips
+  hoina: 6 clips
+  huncha: 2 clips
+  maathi: 11 clips
+  suru: 4 clips
+  tala: 18 clips
+  thik_chha: 1 clips
+
+Interpretation:
+- Low FAR (< 5%) indicates good rejection capability
+- Moderate FAR (5-10%) acceptable for many applications
+- High FAR (> 10%) suggests tuning needed or lower threshold
+
+Recommendation:
+  NEEDS ATTENTION: Consider threshold adjustment or retraining
+
+Detailed Results (60 clips):
+--------------------------------------------------
+[ 1] silence/clip_0004.wav                    → hoina           (conf=-80.000) ❌ FALSE ACCEPT
+[ 2] silence/clip_0013.wav                    → arko            (conf=-40.000) ❌ FALSE ACCEPT
+[ 3] silence/clip_0014.wav                    → tala            (conf=-67.000) ❌ FALSE ACCEPT
+[ 4] silence/clip_0016.wav                    → baalnu          (conf=-17.000) ❌ FALSE ACCEPT
+[ 5] silence/clip_0017.wav                    → suru            (conf=-86.000) ❌ FALSE ACCEPT
+[ 6] silence/clip_0045.wav                    → banda           (conf=-57.000) ❌ FALSE ACCEPT
+[ 7] silence/clip_0048.wav                    → tala            (conf=-83.000) ❌ FALSE ACCEPT
+[ 8] silence/clip_0050.wav                    → banda           (conf=-56.000) ❌ FALSE ACCEPT
+[ 9] silence/clip_0053.wav                    → tala            (conf=8.000) ❌ FALSE ACCEPT
+[10] silence/clip_0058.wav                    → feri            (conf=-26.000) ❌ FALSE ACCEPT
+[11] silence/clip_0072.wav                    → tala            (conf=-67.000) ❌ FALSE ACCEPT
+[12] silence/clip_0080.wav                    → tala            (conf=-40.000) ❌ FALSE ACCEPT
+[13] silence/clip_0082.wav                    → tala            (conf=-80.000) ❌ FALSE ACCEPT
+[14] silence/clip_0102.wav                    → arko            (conf=-60.000) ❌ FALSE ACCEPT
+[15] silence/clip_0111.wav                    → tala            (conf=-26.000) ❌ FALSE ACCEPT
+[16] silence/clip_0112.wav                    → baalnu          (conf=-2.000) ❌ FALSE ACCEPT
+[17] silence/clip_0113.wav                    → huncha          (conf=-5.000) ❌ FALSE ACCEPT
+[18] silence/clip_0115.wav                    → tala            (conf=-55.000) ❌ FALSE ACCEPT
+[19] silence/clip_0120.wav                    → suru            (conf=-12.000) ❌ FALSE ACCEPT
+[20] silence/clip_0126.wav                    → banda           (conf=-35.000) ❌ FALSE ACCEPT
+[21] silence/clip_0141.wav                    → banda           (conf=-78.000) ❌ FALSE ACCEPT
+[22] silence/clip_0143.wav                    → banda           (conf=-41.000) ❌ FALSE ACCEPT
+[23] silence/clip_0173.wav                    → banda           (conf=-73.000) ❌ FALSE ACCEPT
+[24] silence/clip_0175.wav                    → tala            (conf=19.000) ❌ FALSE ACCEPT
+[25] silence/clip_0184.wav                    → maathi          (conf=-61.000) ❌ FALSE ACCEPT
+[26] silence/clip_0195.wav                    → maathi          (conf=-21.000) ❌ FALSE ACCEPT
+[27] silence/clip_0215.wav                    → hoina           (conf=-82.000) ❌ FALSE ACCEPT
+[28] silence/clip_0217.wav                    → arko            (conf=42.000) ❌ FALSE ACCEPT
+[29] silence/clip_0230.wav                    → banda           (conf=36.000) ❌ FALSE ACCEPT
+[30] silence/clip_0259.wav                    → hoina           (conf=-67.000) ❌ FALSE ACCEPT
+[31] silence/clip_0280.wav                    → tala            (conf=-35.000) ❌ FALSE ACCEPT
+[32] silence/clip_0288.wav                    → maathi          (conf=-83.000) ❌ FALSE ACCEPT
+[33] silence/clip_0302.wav                    → huncha          (conf=31.000) ❌ FALSE ACCEPT
+[34] silence/clip_0303.wav                    → maathi          (conf=-49.000) ❌ FALSE ACCEPT
+[35] silence/clip_0309.wav                    → maathi          (conf=-52.000) ❌ FALSE ACCEPT
+[36] silence/clip_0328.wav                    → maathi          (conf=-11.000) ❌ FALSE ACCEPT
+[37] silence/clip_0333.wav                    → maathi          (conf=-66.000) ❌ FALSE ACCEPT
+[38] silence/clip_0347.wav                    → suru            (conf=97.000) ❌ FALSE ACCEPT
+[39] silence/clip_0358.wav                    → arko            (conf=-37.000) ❌ FALSE ACCEPT
+[40] silence/clip_0360.wav                    → maathi          (conf=-42.000) ❌ FALSE ACCEPT
+[41] silence/clip_0367.wav                    → tala            (conf=7.000) ❌ FALSE ACCEPT
+[42] silence/clip_0378.wav                    → tala            (conf=-68.000) ❌ FALSE ACCEPT
+[43] silence/clip_0380.wav                    → tala            (conf=-46.000) ❌ FALSE ACCEPT
+[44] silence/clip_0389.wav                    → tala            (conf=-13.000) ❌ FALSE ACCEPT
+[45] silence/clip_0391.wav                    → tala            (conf=-50.000) ❌ FALSE ACCEPT
+[46] silence/clip_0413.wav                    → arko            (conf=-75.000) ❌ FALSE ACCEPT
+[47] silence/clip_0415.wav                    → arko            (conf=82.000) ❌ FALSE ACCEPT
+[48] silence/clip_0446.wav                    → banda           (conf=47.000) ❌ FALSE ACCEPT
+[49] silence/clip_0457.wav                    → maathi          (conf=-70.000) ❌ FALSE ACCEPT
+[50] silence/clip_0491.wav                    → tala            (conf=-33.000) ❌ FALSE ACCEPT
+[51] unknown/clip_0023.wav                    → hoina           (conf=-13.000) ❌ FALSE ACCEPT
+[52] unknown/clip_0024.wav                    → tala            (conf=3.000) ❌ FALSE ACCEPT
+[53] unknown/clip_0036.wav                    → maathi          (conf=45.000) ❌ FALSE ACCEPT
+[54] unknown/clip_0041.wav                    → suru            (conf=-25.000) ❌ FALSE ACCEPT
+[55] unknown/clip_0052.wav                    → maathi          (conf=7.000) ❌ FALSE ACCEPT
+[56] unknown/clip_0064.wav                    → thik_chha       (conf=-56.000) ❌ FALSE ACCEPT
+[57] unknown/clip_0084.wav                    → arko            (conf=97.000) ❌ FALSE ACCEPT
+[58] unknown/clip_0099.wav                    → tala            (conf=1.000) ❌ FALSE ACCEPT
+[59] unknown/clip_0108.wav                    → hoina           (conf=26.000) ❌ FALSE ACCEPT
+[60] unknown/clip_0117.wav                    → hoina           (conf=-7.000) ❌ FALSE ACCEPT

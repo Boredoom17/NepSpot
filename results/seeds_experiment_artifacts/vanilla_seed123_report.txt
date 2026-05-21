@@ -1,0 +1,34 @@
+Evaluation split: speaker-independent test
+Speakers: voicer28, voicer29, voicer30
+Samples: 361
+
+Model: Vanilla CNN baseline
+Total parameters: 114956
+Trainable parameters: 114444
+Non-trainable parameters: 512
+Float32 model size (KB): 449.05
+Float32 test accuracy: 83.38%
+Float32 macro F1: 0.8348
+CPU inference time per sample (ms): 8.221
+INT8 model size (KB): 122.55
+INT8 test accuracy: 82.55%
+INT8 macro F1: 0.8260
+
+              precision    recall  f1-score   support
+
+     aghillo       0.87      0.87      0.87        30
+        arko       1.00      0.90      0.95        31
+      baalnu       0.58      0.87      0.69        30
+       banda       0.75      0.80      0.77        30
+        feri       0.85      0.93      0.89        30
+       hoina       0.91      0.70      0.79        30
+      huncha       0.84      0.70      0.76        30
+      maathi       0.91      0.97      0.94        30
+       roknu       0.76      0.97      0.85        30
+        suru       0.86      0.83      0.85        30
+        tala       0.95      0.63      0.76        30
+   thik_chha       0.96      0.83      0.89        30
+
+    accuracy                           0.83       361
+   macro avg       0.85      0.83      0.83       361
+weighted avg       0.85      0.83      0.84       361

@@ -1,0 +1,37 @@
+Friedman Test Results (5-Fold Cross-Validation)
+================================================================================
+
+Accuracy by Architecture and Fold:
+--------------------------------------------------------------------------------
+       BC-ResNet  DS-CNN  Vanilla CNN
+fold1      58.61   60.40        68.91
+fold2      66.04   65.62        77.50
+fold3      64.67   59.00        75.33
+fold4      71.00   65.25        76.50
+fold5      75.62   64.38        77.50
+
+Friedman Test
+--------------------------------------------------------------------------------
+H0: No difference in architecture performance across folds
+
+Chi-squared statistic: 8.400000
+P-value: 0.014996
+Interpretation: Significant difference detected at p < 0.05
+
+Post-hoc Wilcoxon Signed-Rank Tests (pairwise, fold-by-fold):
+--------------------------------------------------------------------------------
+
+Comparison 1: BC-ResNet vs DS-CNN
+Wilcoxon statistic: 2.000000
+P-value: 0.187500
+Significance: Not significant
+
+Comparison 2: BC-ResNet vs Vanilla CNN
+Wilcoxon statistic: 0.000000
+P-value: 0.062500
+Significance: Not significant
+
+Comparison 3: Vanilla CNN vs DS-CNN
+Wilcoxon statistic: 0.000000
+P-value: 0.062500
+Significance: Not significant

@@ -1,0 +1,37 @@
+Model: DS-CNN
+Fold: 1/5
+Train wall time: 709.4 s
+
+Train speakers (486): voicer9, voicer10, voicer11, voicer12, voicer13, voicer14, voicer15, voicer16, voicer17, voicer20, voicer22, voicer24, voicer25, voicer26, voicer27, voicer28, voicer29, voicer30, slr_001, slr_002...
+Val speakers: voicer6, voicer7, voicer8
+Test speakers: voicer1, voicer2, voicer3, voicer4, voicer5, _silence_test, _unknown_test
+Train samples: 11373
+Val samples:   1080
+Test samples:  2035
+
+Float32 test accuracy: 68.85%
+Float32 macro F1:      0.6871
+INT8 test accuracy:    66.73%
+INT8 macro F1:         0.6626
+INT8 model size (KB):  33.82
+
+              precision    recall  f1-score   support
+
+     aghillo       0.83      0.63      0.72       150
+        arko       0.55      0.68      0.61       150
+      baalnu       0.70      0.54      0.61       180
+       banda       0.64      0.51      0.57       150
+        feri       0.93      0.77      0.84       150
+       hoina       0.79      0.87      0.83       150
+      huncha       0.59      0.79      0.67       150
+      maathi       0.76      0.74      0.75       180
+       roknu       0.72      0.47      0.57       180
+     silence       0.68      1.00      0.81        50
+        suru       0.75      0.81      0.78       180
+        tala       0.62      0.53      0.57       165
+   thik_chha       0.95      0.81      0.87       150
+     unknown       0.28      0.88      0.42        50
+
+    accuracy                           0.69      2035
+   macro avg       0.70      0.72      0.69      2035
+weighted avg       0.72      0.69      0.69      2035

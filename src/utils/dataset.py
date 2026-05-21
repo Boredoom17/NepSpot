@@ -5,10 +5,12 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 import numpy as np
 
 KEYWORDS = [
-    'baalnu', 'banda', 'suru', 'roknu',
-    'maathi', 'tala', 'arko', 'aghillo',
-    'feri', 'thik_chha', 'huncha', 'hoina'
+    'aghillo', 'arko', 'baalnu', 'banda',
+    'feri', 'hoina', 'huncha', 'maathi',
+    'roknu', 'suru', 'tala', 'thik_chha',
 ]
+
+EXCLUDED_SPEAKERS = {'_silence', '_unknown', '_silence_test', '_unknown_test'}
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 PROCESSED_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
@@ -26,12 +28,13 @@ def get_split_speakers(split_name: str, split_config: Dict | None = None) -> Lis
     config = split_config or load_split_config()
 
     if split_name == 'train':
-        return config['splits']['train_complete'] + config['splits'].get('train_partial', [])
+        speakers = config['splits']['train_complete'] + config['splits'].get('train_partial', [])
+    elif split_name in {'val', 'test'}:
+        speakers = list(config['splits'][split_name])
+    else:
+        raise ValueError(f'Unknown split: {split_name}')
 
-    if split_name in {'val', 'test'}:
-        return list(config['splits'][split_name])
-
-    raise ValueError(f'Unknown split: {split_name}')
+    return [s for s in speakers if s not in EXCLUDED_SPEAKERS]
 
 
 def load_dataset_for_speakers(
@@ -44,6 +47,8 @@ def load_dataset_for_speakers(
     speaker_ids: List[str] = []
 
     for speaker in speakers:
+        if speaker in EXCLUDED_SPEAKERS:
+            continue
         speaker_dir = os.path.join(processed_dir, speaker)
         if not os.path.isdir(speaker_dir):
             continue
@@ -55,6 +60,59 @@ def load_dataset_for_speakers(
 
             for filename in sorted(os.listdir(word_dir)):
                 if not filename.endswith('.npy'):
+                    continue
+
+                path = os.path.join(word_dir, filename)
+                try:
+                    mfcc = np.load(path)
+                except Exception as exc:
+                    print('Failed to load ' + path + ': ' + str(exc))
+                    continue
+
+                features.append(mfcc)
+                labels.append(word)
+                speaker_ids.append(speaker)
+
+    return np.array(features), np.array(labels), np.array(speaker_ids)
+
+
+def load_dataset_filtered(
+    speakers: Sequence[str],
+    processed_dir: str = PROCESSED_DIR,
+    keywords: Sequence[str] = KEYWORDS,
+    exclude_augmented: bool = True,
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Like load_dataset_for_speakers but with an explicit aug filter.
+
+    When ``exclude_augmented=True`` (the default), any .npy whose filename
+    contains the substring ``_aug_`` is skipped. Use this for VAL and TEST
+    splits so that augmented copies of speakers cannot leak into evaluation.
+    Use ``exclude_augmented=False`` for TRAIN splits where the augmented
+    files are wanted.
+
+    Returns the same (features, labels, speaker_ids) tuple as
+    load_dataset_for_speakers.
+    """
+    features: List[np.ndarray] = []
+    labels: List[str] = []
+    speaker_ids: List[str] = []
+
+    for speaker in speakers:
+        if speaker in EXCLUDED_SPEAKERS:
+            continue
+        speaker_dir = os.path.join(processed_dir, speaker)
+        if not os.path.isdir(speaker_dir):
+            continue
+
+        for word in keywords:
+            word_dir = os.path.join(speaker_dir, word)
+            if not os.path.isdir(word_dir):
+                continue
+
+            for filename in sorted(os.listdir(word_dir)):
+                if not filename.endswith('.npy'):
+                    continue
+                if exclude_augmented and '_aug_' in filename:
                     continue
 
                 path = os.path.join(word_dir, filename)

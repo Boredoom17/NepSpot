@@ -19,6 +19,20 @@ def time_stretch(audio, rate=None):
         rate = np.random.uniform(0.85, 1.15)
     return librosa.effects.time_stretch(audio, rate=rate)
 
+def speed_stretch(audio, mode='fast'):
+    """Time-stretch audio in either 'fast' (1.20-1.35) or 'slow' (0.80-0.90) range.
+
+    fast → shorter clip (model sees compressed speech)
+    slow → longer clip (model sees drawn-out speech)
+    """
+    if mode == 'fast':
+        rate = np.random.uniform(1.20, 1.35)
+    elif mode == 'slow':
+        rate = np.random.uniform(0.80, 0.90)
+    else:
+        raise ValueError("mode must be 'fast' or 'slow', got " + repr(mode))
+    return librosa.effects.time_stretch(audio, rate=rate)
+
 def pitch_shift(audio, sr, steps=None):
     """Raise or lower the pitch slightly"""
     if steps is None:

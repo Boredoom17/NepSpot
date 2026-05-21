@@ -109,13 +109,13 @@ def main():
     plt.xticks(rotation=45, ha='right')
     plt.yticks(rotation=0)
     plt.tight_layout()
-    plt.savefig(f"{RESULTS_DIR}/figures/confusion_matrix.png", dpi=150, bbox_inches='tight')
+    plt.savefig(f"{RESULTS_DIR}/figures/confusion_matrix.png", dpi=300, bbox_inches='tight')
     plt.close()
     print("Saved: results/figures/confusion_matrix.png")
 
     # ── Per class accuracy bar chart ──
     per_class = cm.diagonal() / cm.sum(axis=1) * 100
-    plt.figure(figsize=(14, 6))
+    plt.figure(figsize=(14, 8))
     bars = plt.bar(range(len(plot_labels)), per_class, 
                    color='#8B1A1A', edgecolor='white', width=0.7)
     plt.axhline(y=accuracy, color='gold', linestyle='--',
@@ -131,7 +131,7 @@ def main():
                  bar.get_height() + 1,
                  f'{val:.0f}%', ha='center', fontsize=9, rotation=0)
     plt.tight_layout()
-    plt.savefig(f"{RESULTS_DIR}/figures/per_keyword_accuracy.png", dpi=150, bbox_inches='tight')
+    plt.savefig(f"{RESULTS_DIR}/figures/per_keyword_accuracy.png", dpi=300, bbox_inches='tight')
     plt.close()
     print("Saved: results/figures/per_keyword_accuracy.png")
 

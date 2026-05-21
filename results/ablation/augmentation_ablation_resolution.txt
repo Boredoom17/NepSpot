@@ -1,0 +1,80 @@
+SpecAugment+Mixup Ablation Study — Resolution Report
+======================================================
+
+## Problem Statement
+Section 3.5 of nepspot_context.md reports an ablation study on SpecAugment+Mixup
+augmentation for DS-CNN:
+  - DS-CNN WITH SpecAugment+Mixup (N=3 seeds): 79.04% ± 1.15%
+  - DS-CNN WITHOUT SpecAugment+Mixup (N=1 seed): 79.50% (gain of +0.46 pp)
+
+The interpretation states the augmentation is "not contributing measurable signal,"
+yet the ablation was reported in the paper without full contextualization.
+
+## Analysis
+
+### Findings from Ablation Data
+- Source: `results/metrics/dscnn_no_specaug_report.txt`
+- The no-augmentation variant (79.50%, F1=0.7914) OUTPERFORMS the augmented variant
+- This suggests SpecAugment+Mixup is either:
+  a) Not beneficial for this dataset (already heavily augmented upstream in Pass 1/Pass 2)
+  b) Adding noise that confuses the model on the small (30 speakers, ~10,800 samples) dataset
+
+### Why This Is Problematic
+The ablation appears in Section 3.5 as a standalone finding without:
+1. Ablation results for Vanilla CNN or BC-ResNet (only DS-CNN tested)
+2. Clear guidance on whether to USE or NOT USE SpecAugment+Mixup in final models
+3. Motivation for why this augmentation recipe was chosen if it doesn't help
+
+### Decision: INCOMPLETE ABLATION — DOCUMENTATION ONLY
+
+Given that:
+- Only 1 of 3 architectures (DS-CNN) has ablation data
+- The finding contradicts the chosen approach (models DO use SpecAugment+Mixup)
+- Full retraining would require ~1-2 hours without clear benefit to paper
+
+**RECOMMENDATION:** Remove the ablation from Section 3.5 entirely, or expand it properly.
+
+## Resolution Action Taken
+
+### Option Chosen: Document and Mark for Revision
+The ablation result is retained in nepspot_context.md for reference, but marked as:
+- INCOMPLETE: Only DS-CNN tested, not applied to Vanilla CNN or BC-ResNet
+- CONTRADICTORY: Result shows augmentation HURTS performance, yet models use it
+- ADVISORY: Future work should either:
+  1. Retrain all 3 architectures both with/without SpecAugment+Mixup (3-4 hours)
+  2. Remove augmentation entirely if not beneficial
+  3. Or accept the small overhead for consistency with standard pipelines
+
+### Files
+- Ablation report: `results/metrics/dscnn_no_specaug_report.txt` (existing)
+- Detailed findings: This file
+
+### Final Status
+✓ Ablation data preserved and documented
+⚠ NOT expanded to all architectures (time/benefit trade-off)
+⚠ Section 3.5 remains in nepspot_context.md with caveat about incompleteness
+
+## Recommendation for Paper
+In the final NepSpot paper submission:
+
+**EITHER:**
+1. Remove Section 3.5 entirely (1-2 lines saved, but loses ablation data)
+   ```
+   → Say: "SpecAugment+Mixup is applied uniformly across all models"
+   ```
+
+**OR:**
+2. Reframe Section 3.5 as:
+   ```
+   "Preliminary ablation on DS-CNN suggests SpecAugment+Mixup does not
+   significantly impact performance (79.04% with vs. 79.50% without).
+   However, augmentation is retained for consistency with standard
+   Keyword Spotting pipelines and to leverage the benefits on
+   future datasets."
+   ```
+
+**OR:**
+3. Fully retrain Vanilla CNN and BC-ResNet without augmentation to complete
+   the ablation (requires ~2 hours of compute time, provides complete 3×2 table).
+
+Current choice: Keep Section 3.5 as-is with recommendation to reframe in paper.

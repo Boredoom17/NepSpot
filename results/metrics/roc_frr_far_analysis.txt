@@ -1,0 +1,58 @@
+================================================================================
+FRR/FAR Analysis - BC-ResNet Phase 1 INT8
+================================================================================
+Test set: 1083 samples from ['voicer28', 'voicer29', 'voicer30']
+
+Keyword: aghillo
+  AUC: 0.5506
+  EER: 0.4600 at threshold -117.0
+
+Keyword: arko
+  AUC: 0.4907
+  EER: 0.5154 at threshold -104.0
+
+Keyword: baalnu
+  AUC: 0.5645
+  EER: 0.4487 at threshold -90.0
+
+Keyword: banda
+  AUC: 0.5748
+  EER: 0.4333 at threshold -88.0
+
+Keyword: feri
+  AUC: 0.5357
+  EER: 0.4935 at threshold -109.0
+
+Keyword: hoina
+  AUC: 0.5552
+  EER: 0.4688 at threshold -105.0
+
+Keyword: huncha
+  AUC: 0.4464
+  EER: 0.5406 at threshold -106.0
+
+Keyword: maathi
+  AUC: 0.5010
+  EER: 0.5152 at threshold -110.0
+
+Keyword: roknu
+  AUC: 0.5195
+  EER: 0.4804 at threshold -120.0
+
+Keyword: suru
+  AUC: 0.4125
+  EER: 0.5229 at threshold -109.0
+
+Keyword: tala
+  AUC: 0.4294
+  EER: 0.5275 at threshold -96.0
+
+Keyword: thik_chha
+  AUC: 0.5139
+  EER: 0.4857 at threshold -119.0
+
+================================================================================
+Summary Statistics
+================================================================================
+Macro-Average AUC: 0.5078
+Mean per-keyword AUC: 0.5079 ± 0.0517

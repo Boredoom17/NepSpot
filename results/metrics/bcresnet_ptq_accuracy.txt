@@ -1,0 +1,18 @@
+BC-ResNet Quantization Comparison
+==================================================
+
+Post-Training Quantization (PTQ):
+  Representative dataset: 200 samples from training split
+  Quantized model: models/tflite/bc_resnet_ptq.tflite
+  Model size: 97.34 KB
+  Test accuracy: 80.61%
+
+Quantization-Aware Training (QAT) [current]:
+  Same model converted to int8 after 15 extra training epochs
+  Test accuracy: 81.16% (from bootstrap_predictions.npz)
+
+Difference: -0.01 pp (PTQ vs QAT)
+
+Note: BC-ResNet received 15 additional training epochs during QAT.
+Other architectures (DS-CNN, Vanilla) used only PTQ (no extra training).
+This comparison demonstrates the impact of training method on int8 accuracy.

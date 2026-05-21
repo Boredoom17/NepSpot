@@ -1,0 +1,17 @@
+Speaker-Bootstrapped 95% Confidence Intervals (Test Set, n=361)
+============================================================
+
+Vanilla CNN:
+  Test accuracy: 84.49%
+  95% CI (speaker bootstrap): [81.67%, 89.17%]
+
+DS-CNN:
+  Test accuracy: 80.06%
+  95% CI (speaker bootstrap): [70.83%, 89.17%]
+
+BC-ResNet:
+  Test accuracy: 81.16%
+  95% CI (speaker bootstrap): [69.17%, 89.17%]
+
+Notes: CIs computed by resampling over 3 test speakers with replacement (1000 replicates).
+This measures generalization variance across speakers, not seed initialization variance.

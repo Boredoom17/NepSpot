@@ -1,0 +1,51 @@
+Model: BC-ResNet
+Fold:  5/5
+Seed:  42
+
+Train speakers (480): voicers=['voicer16', 'voicer2', 'voicer9', 'voicer6', 'voicer12', 'voicer4', 'voicer22', 'voicer17', 'voicer14', 'voicer3', 'voicer10', 'voicer24', 'voicer5', 'voicer13']; + 443 slr_* + 23 speaker_*
+Val   speakers (2): ['voicer1', 'voicer20']
+Test  speakers (4): ['voicer8', 'voicer11', 'voicer15', 'voicer7']
+
+Train samples (incl. _aug_):    20163
+Val   samples (originals only): 265
+Test  samples (originals only): 480
+
+INT8 size (KB):       93.64
+INT8 input qparams:   scale=0.076592 zero_point=71
+INT8 test accuracy:   75.62%
+INT8 macro F1:        0.7577
+Training + eval time: 195.05 min
+
+Per-class INT8 F1
+----------------------------------------
+  aghillo      0.8571
+  arko         0.7677
+  baalnu       0.7463
+  banda        0.6200
+  feri         0.7473
+  hoina        0.7619
+  huncha       0.7467
+  maathi       0.8056
+  roknu        0.6207
+  suru         0.9000
+  tala         0.6190
+  thik_chha    0.9000
+
+              precision    recall  f1-score   support
+
+     aghillo     1.0000    0.7500    0.8571        40
+        arko     0.6441    0.9500    0.7677        40
+      baalnu     0.9259    0.6250    0.7463        40
+       banda     0.5167    0.7750    0.6200        40
+        feri     0.6667    0.8500    0.7473        40
+       hoina     0.7273    0.8000    0.7619        40
+      huncha     0.8000    0.7000    0.7467        40
+      maathi     0.9062    0.7250    0.8056        40
+       roknu     1.0000    0.4500    0.6207        40
+        suru     0.9000    0.9000    0.9000        40
+        tala     0.5909    0.6500    0.6190        40
+   thik_chha     0.9000    0.9000    0.9000        40
+
+    accuracy                         0.7562       480
+   macro avg     0.7981    0.7562    0.7577       480
+weighted avg     0.7981    0.7562    0.7577       480

@@ -1,0 +1,16 @@
+Bootstrap 95% confidence intervals
+Test set: voicer28/29/30, n=361 clips, 12 keywords
+Resamples: 1000, seed: 42
+Models evaluated as float32 .keras checkpoints
+
+Accuracy
+--------
+Vanilla CNN : 84.49% [80.88%, 88.37%]
+DS-CNN      : 80.06% [75.62%, 83.94%]
+BC-ResNet   : 81.16% [77.01%, 85.32%]
+
+Macro F1
+--------
+Vanilla CNN : 0.8423 [0.8025, 0.8778]
+DS-CNN      : 0.8016 [0.7570, 0.8380]
+BC-ResNet   : 0.8137 [0.7716, 0.8508]

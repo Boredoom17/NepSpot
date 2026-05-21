@@ -31,6 +31,10 @@ NEPALI = {
 TRIES_PER_WORD = 5
 
 def load_model_and_labels():
+    """Load the trained Keras model and related label/normalization files.
+
+    How: reads `best_model.keras`, `label_classes.npy`, and MFCC mean/std.
+    """
     model = tf.keras.models.load_model(
         os.path.join(MODELS_DIR, 'best_model.keras')
     )
@@ -52,7 +56,13 @@ def record_audio():
     sd.wait()
     return audio.flatten()
 
+
 def extract_mfcc(audio, mean, std):
+    """Compute normalized MFCCs for a recorded audio snippet.
+
+    How: trims or pads to 1s, computes MFCC with configured params,
+    and normalizes using provided mean/std.
+    """
     target_len = int(SAMPLE_RATE * 1.0)
     audio = audio[:target_len]
     if len(audio) < target_len:
@@ -85,20 +95,19 @@ def test_word(word, model, classes, mean, std):
     results = []
 
     print(f"\n{'='*45}")
-    print(f"  Testing: {word} ({nepali})")
-    print(f"  Say '{nepali}' {TRIES_PER_WORD} times")
+    print(f"Testing: {word} ({nepali}) — say {nepali} {TRIES_PER_WORD} times")
     print(f"{'='*45}")
 
     for i in range(TRIES_PER_WORD):
-        input(f"\n  Try {i+1}/{TRIES_PER_WORD} — Press Enter then speak...")
+        input(f"\nTry {i+1}/{TRIES_PER_WORD} — press Enter then speak...")
         import time
         time.sleep(0.5)  # wait half second before recording
-        print(f"  🎤 Listening...")
+        print("Listening...")
         audio = record_audio()
 
         rms = np.sqrt(np.mean(audio**2))
         if rms < SILENCE_RMS:
-            print(f"  🔇 Silence — try again")
+            print("Silence detected — try again")
             results.append("silence")
             continue
 
@@ -106,19 +115,19 @@ def test_word(word, model, classes, mean, std):
         predicted, conf = predict(model, classes, mfcc)
 
         if predicted is None:
-            print(f"  ❓ Rejected — unclear")
+            print("Rejected — unclear")
             results.append("rejected")
         elif predicted == word:
             correct += 1
-            print(f"  ✅ Correct! ({conf*100:.1f}%)")
+            print(f"Correct ({conf*100:.1f}%)")
             results.append("correct")
         else:
             nepali_wrong = NEPALI.get(predicted, predicted)
-            print(f"  ❌ Wrong — got {predicted} ({nepali_wrong}) at {conf*100:.1f}%")
+            print(f"Wrong — got {predicted} ({nepali_wrong}) at {conf*100:.1f}%")
             results.append(f"wrong:{predicted}")
 
     score = correct / TRIES_PER_WORD * 100
-    print(f"\n  Score: {correct}/{TRIES_PER_WORD} = {score:.0f}%")
+    print(f"\nScore: {correct}/{TRIES_PER_WORD} = {score:.0f}%")
     return score, results
 
 def main():
@@ -130,7 +139,7 @@ def main():
     print("  Each word tested 5 times")
     print("="*45)
 
-    print("\nWhich words to test?")
+    print("Which words to test:")
     print("0. All words")
     for i, word in enumerate(KEYWORDS):
         print(f"{i+1}. {word} ({NEPALI[word]})")
@@ -152,15 +161,12 @@ def main():
         score, _ = test_word(word, model, classes, mean, std)
         scores[word] = score
 
-    # ── Summary ──
-    print("\n" + "="*45)
-    print("  FINAL RESULTS")
-    print("="*45)
+    print("\nFinal results:")
     for word, score in sorted(scores.items(), key=lambda x: x[1]):
         nepali = NEPALI[word]
-        bar    = "█" * int(score // 10)
-        status = "✅" if score >= 80 else "⚠️ " if score >= 60 else "❌"
-        print(f"  {status} {word:12} {nepali:10} {bar} {score:.0f}%")
+        bar = "#" * int(score // 10)
+        status = "PASS" if score >= 80 else "WARN" if score >= 60 else "FAIL"
+        print(f"{status:4} {word:12} {nepali:10} {bar} {score:.0f}%")
 
 if __name__ == "__main__":
     main()

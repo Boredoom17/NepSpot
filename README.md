@@ -1,90 +1,41 @@
 
-# NepSpot (Work in Progress)
+# NepSpot
 
-Hi! this is NepSpot — my attempt to bring Nepali voice commands (for now on low scale) to low-cost devices, fully offline, aiming to make keyword spotting in Nepali accessible for everyone, even on tiny hardware like the Arduino Nano 33 BLE Sense.
+Compact Nepali keyword-spotting research code and deployment artifacts. NepSpot extracts MFCC features from short clips, trains compact KWS models (Vanilla CNN, DS-CNN, BC-ResNet), and provides model export paths for edge deployment (TFLite / Arduino Nano 33 BLE Sense).
 
-NepSpot collects real Nepali voice commands, extracts MFCC features, trains compact keyword spotting models, and runs everything on-device — no internet needed. The goal: make Nepali speech tech practical for local, resource-constrained settings.
+Goals
+- Reproducible experiments with speaker-independent splits and seeded training.
+- Small-footprint models suitable for microcontrollers.
+- Clear data-mining and provenance tracking for external audio sources.
 
-Current model baselines in this repo:
-- DS-CNN baseline (deployment-friendly, smaller footprint)
-- Vanilla CNN baseline (higher capacity reference)
-- BC-ResNet-1 baseline (Broadcasted Residual Learning style architecture for efficient KWS)
+Quick Start
+1. Activate the project's venv and install dependencies (see `requirements.txt`).
+2. Place audio under `data/raw/` or use `data/external/` staging for incoming corpora.
+3. Run augmentation: `python3 src/utils/run_augmentation.py`.
+4. Extract MFCCs: `python3 src/features/extract_mfcc.py`.
+5. Train models: see `src/models/train_vanilla_phase1.py`, `src/models/train_phase1.py`, `src/models/train_bcresnet_phase1.py`.
+6. Convert/export to TFLite: training scripts export SavedModel and call PTQ conversion for INT8.
 
+Reproducibility
+- All Phase-1 training drivers read `SEED` from the environment (default 42) and set `PYTHONHASHSEED`, `random.seed`, `np.random.seed`, and `tf.random.set_seed` to ensure deterministic runs where feasible.
+- Feature extraction and normalization stats are saved under `models/saved/` for repeatable preprocessing.
 
-## Research Setup
-
-- Validation and test splits are speaker-independent, so the model is tested on voices it’s never heard before.
-- Any incomplete or partial recordings are used for training only.
-- The split configuration is in `configs/speaker_split_v1.json`.
-- Dataset loading and helpers are in `src/utils/dataset.py`.
-
-This way, I can use all the data I collected (even the messy bits) for training, but keep the evaluation fair and honest for the paper.
-
-
-## Project Layout
-
+Repository Layout (short)
 - `configs/` — experiment configs and speaker splits
-- `configs/data_mining/` — keyword aliases and source planning configs for external mining
-- `data/raw/` — all the original and augmented audio clips
-- `data/processed/` — MFCC features, organized by speaker and keyword
-- `data/external/` — pre-mining workspace (incoming source dumps, manifests, review logs, staging)
-- `models/saved/` — trained Keras models, label classes, stats
-- `models/tflite/` — TFLite models (float32 and INT8) for deployment
-- `results/figures/` — plots and visualizations
-- `results/metrics/` — evaluation reports and metrics
-- `src/features/` — feature extraction scripts
-- `src/models/` — model code and TFLite conversion
-- `src/inference/` — live mic and test scripts
-- `src/utils/` — helpers for data, augmentation, and results
-- `scripts/data_mining/` — helper scripts for creating and maintaining the mining scaffold
-- `docs/dataset-expansion/` — beginner-friendly Option 4 workflow docs
+- `data/raw/`, `data/processed/` — audio and extracted MFCCs
+- `models/saved/`, `models/tflite/` — trained artifacts and TFLite
+- `results/` — metrics and figures
+- `src/` — project source: `features/`, `models/`, `utils/`, `inference/`
+- `scripts/` — helpers: dataset building, audits, and analysis
 
+Documentation & Context
+- See `CONTEXT.md` for an annotated snapshot of the project state and measured on-device numbers.
+- See `CHANGELOG.md` for a dated history of major changes and dataset/experiment notes.
 
-## Dataset Expansion Workspace (Option 4)
+Citation
+If you use this code in research, please cite the repository and contact the author for the preferred bibliographic entry.
 
-Before mining internet data, initialize the workspace:
+License
+This repository is published under the MIT License (see LICENSE file).
 
-1. `bash scripts/data_mining/make_dataset_scaffold.sh`
-2. Track candidate clips in `data/external/manifests/candidates.csv`.
-3. Track accepted/rejected decisions in `data/external/manifests/accepted.csv` and `data/external/manifests/rejected.csv`.
-4. Keep source provenance in `data/external/manifests/source_registry.csv`.
-5. Follow the beginner guide at `docs/dataset-expansion/step-by-step-beginner.md`.
-
-This keeps external mining clean and separate from model-ready `data/raw/` and `data/processed/`.
-
-
-## How to Reproduce (or Play With) NepSpot
-
-1. Put your recordings in `data/raw/` (or use mine if you have access).
-2. Run `src/utils/run_augmentation.py` to boost the dataset for under-represented words.
-3. Extract MFCC features with `src/features/extract_mfcc.py`.
-4. Train DS-CNN baseline with `src/models/train.py`.
-5. Train Vanilla CNN baseline with `src/models/train_vanilla.py`.
-6. Train BC-ResNet baseline with `src/models/train_bcresnet.py`.
-7. Evaluate legacy DS-CNN results with `src/utils/save_results.py`.
-8. Export generic TFLite models with `src/models/convert_tflite.py`, or use `src/models/train_vanilla.py` / `src/models/train_bcresnet.py` to train + quantize + report in one run.
-9. Try live keyword spotting on your laptop with `src/inference/live_mic.py` or test individual words with `src/inference/test_words.py`.
-
-## BC-ResNet Notes
-
-- BC-ResNet architecture file: `src/models/bc_resnet.py`
-- End-to-end BC-ResNet pipeline: `src/models/train_bcresnet.py`
-- Expected outputs from BC-ResNet training run:
-	- `models/saved/bc_resnet_best.keras`
-	- `models/saved/bc_resnet_saved_model/`
-	- `models/tflite/bc_resnet_int8.tflite`
-	- `models/tflite/bc_resnet_int8.h`
-	- `results/metrics/bc_resnet_report.txt`
-- The BC-ResNet training script also prints a 3-way comparison table (Vanilla CNN, DS-CNN, BC-ResNet) when reference artifacts are present.
-
-
-## Notes & Tips
-
-- If you add new audio or augmentations, don’t forget to re-extract MFCCs before retraining.
-- Always keep the test speakers the same for fair comparisons.
-- For the main results, only use the fixed speaker-independent split.
-- If you want to experiment with partial speakers, just change the train set—leave validation and test untouched.
-
----
-
-If you have questions, want to collaborate, or just want to chat about Nepali speech tech, feel free to reach out!
+Questions or contributions: open an issue or PR.

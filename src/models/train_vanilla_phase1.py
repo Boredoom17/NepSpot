@@ -50,6 +50,7 @@ DS_TFLITE_PATH = os.path.join(os.path.dirname(MODELS_DIR), 'tflite', 'nepspot_in
 
 
 def count_parameters(model):
+    """Return (total, trainable, non-trainable) parameter counts for `model`."""
     trainable_params = int(np.sum([np.prod(weight.shape) for weight in model.trainable_weights]))
     non_trainable_params = int(np.sum([np.prod(weight.shape) for weight in model.non_trainable_weights]))
     total_params = trainable_params + non_trainable_params
@@ -57,10 +58,12 @@ def count_parameters(model):
 
 
 def model_size_kb(total_params):
+    """Estimate float32 model size in KB from parameter count."""
     return (total_params * 4) / 1024.0
 
 
 def prepare_dataset():
+    """Load and prepare train/val/test arrays and label encoder for Vanilla Phase1."""
     train_summary = summarize_split('train')
     val_summary = summarize_split('val')
     test_summary = summarize_split('test')

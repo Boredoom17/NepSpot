@@ -25,7 +25,7 @@ def main():
                 continue
             added = augment_for_speed(sp.name, kw, str(folder))
             total_added += added
-        print(f"  ✓ {sp.name}")
+        print(f"  OK {sp.name}")
 
     print(f"\nDone. Added {total_added} augmentation files (fast + noisy pairs)")
 

@@ -29,6 +29,11 @@ _BASE_SEED = tf.constant(_SEED, dtype=tf.int64)
 
 
 def _mask_along_axis_stateless(x, axis, min_width, max_width, dim_size, seed_w, seed_s):
+    """Apply a stateless rectangular mask along `axis`.
+
+    How: sample a random width and start using stateless RNG, build a boolean
+    mask and apply it to `x`. Returns masked tensor and number of masked elements.
+    """
     width = tf.random.stateless_uniform(
         [], seed=seed_w, minval=min_width, maxval=max_width + 1, dtype=tf.int32,
     )
@@ -126,6 +131,11 @@ def _mixup_batch(batch_idx, x_batch, y_batch, spec_flags, masked_counts):
 
 
 def build_phase1_train_datasets(X_train, y_train_onehot, batch_size=32, shuffle_buffer=2048):
+    """Build training Dataset with deterministic specaugment and mixup.
+
+    How: shuffles with a fixed seed, applies per-example stateless specaugment,
+    batches, then applies stateless mixup per batch. Returns (train_ds, debug_ds).
+    """
     X_train = np.asarray(X_train, dtype=np.float32)
     y_train_onehot = np.asarray(y_train_onehot, dtype=np.float32)
 
@@ -163,6 +173,11 @@ def build_phase1_train_datasets(X_train, y_train_onehot, batch_size=32, shuffle_
 
 
 def inspect_augmentation_behavior(debug_ds, max_batches=12):
+    """Run a quick inspection over `debug_ds` to summarize augmentation rates.
+
+    How: iterates up to `max_batches` and reports counts of specaug, masked,
+    and mixup occurrences for basic debugging of determinism.
+    """
     total_examples = 0
     specaug_examples = 0
     zero_mask_examples = 0

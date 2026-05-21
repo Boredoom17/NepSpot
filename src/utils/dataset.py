@@ -20,11 +20,19 @@ DEFAULT_SPLIT_PATH = os.path.join(PROJECT_ROOT, 'configs', 'speaker_split_v1.jso
 
 
 def load_split_config(split_path: str = DEFAULT_SPLIT_PATH) -> Dict:
+    """Load speaker split JSON config from `split_path`.
+
+    Returns the parsed JSON as a dict.
+    """
     with open(split_path, 'r', encoding='utf-8') as handle:
         return json.load(handle)
 
 
 def get_split_speakers(split_name: str, split_config: Dict | None = None) -> List[str]:
+    """Return a list of speaker folder names for a named split.
+
+    `split_name` should be one of 'train', 'val', or 'test'.
+    """
     config = split_config or load_split_config()
 
     if split_name == 'train':
@@ -42,6 +50,11 @@ def load_dataset_for_speakers(
     processed_dir: str = PROCESSED_DIR,
     keywords: Sequence[str] = KEYWORDS,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Load features, labels, and speaker IDs for the given speakers.
+
+    How: searches `processed_dir/<speaker>/<keyword>/*.npy` and stacks arrays.
+    Returns (features, labels, speaker_ids) as numpy arrays.
+    """
     features: List[np.ndarray] = []
     labels: List[str] = []
     speaker_ids: List[str] = []
@@ -135,6 +148,10 @@ def load_split_dataset(
     processed_dir: str = PROCESSED_DIR,
     keywords: Sequence[str] = KEYWORDS,
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, List[str]]:
+    """Load dataset arrays for a named split and return the speaker list.
+
+    Returns (features, labels, speaker_ids, speakers).
+    """
     config = load_split_config(split_path)
     speakers = get_split_speakers(split_name, config)
     features, labels, speaker_ids = load_dataset_for_speakers(speakers, processed_dir, keywords)
@@ -147,6 +164,7 @@ def summarize_split(
     processed_dir: str = PROCESSED_DIR,
     keywords: Sequence[str] = KEYWORDS,
 ) -> Dict:
+    """Return a small summary dict for `split_name` with counts per label and speaker."""
     _, labels, speaker_ids, speakers = load_split_dataset(split_name, split_path, processed_dir, keywords)
 
     label_counts = {word: int(np.sum(labels == word)) for word in keywords}
@@ -171,6 +189,10 @@ def representative_sample_generator(
     processed_dir: str = PROCESSED_DIR,
     keywords: Sequence[str] = KEYWORDS,
 ) -> Tuple[np.ndarray, List[int]]:
+    """Return up to `max_samples` features and integer labels for representive sampling.
+
+    Used for TFLite INT8 representative datasets and quick model inspections.
+    """
     features, labels, _, _ = load_split_dataset(split_name, split_path, processed_dir, keywords)
     if len(features) == 0:
         return np.array([], dtype=np.float32), []

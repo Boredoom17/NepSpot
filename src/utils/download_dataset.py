@@ -17,6 +17,12 @@ cloudinary.config(
 DOWNLOAD_DIR = "data/raw"
 CONFIG_PATH  = "configs/speaker_split_v1.json"
 
+"""Download speaker recordings from Cloudinary and convert to 16kHz WAV.
+
+How: reads speaker lists from `CONFIG_PATH`, lists Cloudinary resources,
+downloads `.webm` files and converts them to 16 kHz mono WAV in `DOWNLOAD_DIR`.
+"""
+
 
 def get_speakers_and_keywords():
     """Read speaker list and keywords from config — avoids stale Cloudinary folder cache."""
@@ -80,7 +86,7 @@ def main():
                     download_and_convert(clip["secure_url"], save_path)
                     total += 1
                 except Exception as e:
-                    print(f"  ✗ {word} attempt {i+1}: {e}")
+                    print(f"  failed {word} attempt {i+1}: {e}")
                     failed += 1
         print(f"  ✓ done")
 

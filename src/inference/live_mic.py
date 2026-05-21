@@ -29,6 +29,7 @@ NEPALI = {
 }
 
 def load_model_and_labels():
+    """Load the trained Keras model and label/normalization artifacts."""
     print("Loading model...")
     model = tf.keras.models.load_model(
         os.path.join(MODELS_DIR, 'best_model.keras')
@@ -43,7 +44,7 @@ def load_model_and_labels():
     return model, classes, mean, std
 
 def record_audio(duration=DURATION, sr=SAMPLE_RATE):
-    print(f"\n🎤 Listening for {duration}s... speak now!")
+    print(f"Listening for {duration}s...")
     audio = sd.rec(
         int(duration * sr),
         samplerate=sr,
@@ -54,6 +55,10 @@ def record_audio(duration=DURATION, sr=SAMPLE_RATE):
     return audio.flatten()
 
 def extract_mfcc(audio, mean, std, sr=SAMPLE_RATE):
+    """Compute normalized MFCC for a single audio snippet.
+
+    How: trim/pad to 1s, compute MFCC, normalize with mean/std.
+    """
     target_len = int(sr * 1.0)
     if len(audio) > target_len:
         audio = audio[:target_len]
@@ -105,19 +110,19 @@ def main():
             # Silence detection
             rms = np.sqrt(np.mean(audio**2))
             if rms < SILENCE_RMS:
-                print("🔇 Silence detected — no keyword found")
+                print("Silence detected — no keyword found")
                 continue
 
             mfcc       = extract_mfcc(audio, mean, std)
             word, conf = predict(model, classes, mfcc)
 
             if word is None:
-                print(f"❓ Rejected — sound not recognized as a keyword")
+                print("Rejected — not a recognized keyword")
             elif conf >= THRESHOLD:
                 nepali = NEPALI.get(word, word)
-                print(f"✅ Detected: {word} ({nepali}) — {conf*100:.1f}% confidence")
+                print(f"Detected: {word} ({nepali}) — {conf*100:.1f}% confidence")
             else:
-                print(f"❓ Uncertain: {word} — only {conf*100:.1f}% confidence")
+                print(f"Uncertain: {word} — {conf*100:.1f}% confidence")
 
         except KeyboardInterrupt:
             print("\nExiting.")

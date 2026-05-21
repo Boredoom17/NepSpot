@@ -1,11 +1,57 @@
-venv/
+# Python
 __pycache__/
 *.pyc
+*.pyo
+venv/
+.venv/
+.python-version
+
+# OS
 .DS_Store
-data/raw/
-*.wav
-*.h5
-*.tflite
+Thumbs.db
+
+# Editor
 .ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Environment / secrets
 .env
-data/
+*.key
+
+# Logs
+*.log
+
+# Raw audio (too big for git, host on Zenodo)
+data/raw/
+data/external/staging/extracted/commonvoice/cv-corpus-*/clips/
+data/external/opensir/zips/
+
+# Processed features (regenerable, too big)
+data/processed/
+
+# Large model checkpoints (host on Zenodo or releases)
+models/saved/*.keras
+models/saved/*_saved_model/
+models/kfold/*.keras
+models/kfold/*.tflite
+
+# Keep small/critical files even in ignored dirs
+!models/saved/mfcc_mean.npy
+!models/saved/mfcc_std.npy
+!models/saved/*_label_classes.npy
+!models/tflite/
+!data/external/manifests/
+!data/external/opensir/scan_keywords.py
+!data/external/opensir/utt_spk_text.tsv
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Archive directory (local notes, not for repo)
+archive/
+# Keep private project state files local
+CHANGELOG.md
+CONTEXT.md

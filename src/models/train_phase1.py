@@ -47,6 +47,7 @@ DS_PHASE1_REPORT_PATH = os.path.join(RESULTS_DIR, 'metrics', 'classification_rep
 
 
 def count_parameters(model):
+    """Return (total, trainable, non-trainable) parameter counts for `model`."""
     trainable_params = int(np.sum([np.prod(weight.shape) for weight in model.trainable_weights]))
     non_trainable_params = int(np.sum([np.prod(weight.shape) for weight in model.non_trainable_weights]))
     total_params = trainable_params + non_trainable_params
@@ -54,10 +55,12 @@ def count_parameters(model):
 
 
 def model_size_kb(total_params):
+    """Estimate float32 model size in KB from parameter count."""
     return (total_params * 4) / 1024.0
 
 
 def prepare_dataset():
+    """Load and prepare train/val/test arrays and label encoder for Phase 1."""
     train_summary = summarize_split('train')
     val_summary = summarize_split('val')
     test_summary = summarize_split('test')
@@ -96,6 +99,7 @@ def prepare_dataset():
 
 
 def compile_model(model):
+    """Compile `model` with Adam + label smoothing as used in the paper."""
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
         loss=tf.keras.losses.CategoricalCrossentropy(
@@ -107,6 +111,7 @@ def compile_model(model):
 
 
 def train_model(model, X_train, y_train, X_val, y_val):
+    """Train `model` with deterministic augmentation and common callbacks."""
     ensure_directory(MODELS_DIR)
     callbacks = [
         tf.keras.callbacks.ModelCheckpoint(

@@ -26,6 +26,10 @@ from tensorflow.keras import layers, models
 
 
 def _freq_branch(x, name):
+    """Frequency-path depthwise conv + BN.
+
+    How: applies a (3,1) depthwise convolution across frequency, then batch-norm.
+    """
     y = layers.DepthwiseConv2D(
         kernel_size=(3, 1),
         padding='same',
@@ -37,6 +41,11 @@ def _freq_branch(x, name):
 
 
 def _time_branch(x, time_dilation, name):
+    """Time-path depthwise conv + BN + swish activation.
+
+    How: applies a (1,3) depthwise convolution with `time_dilation`,
+    then batch-norm and swish nonlinearity.
+    """
     y = layers.DepthwiseConv2D(
         kernel_size=(1, 3),
         dilation_rate=(1, time_dilation),
@@ -50,22 +59,11 @@ def _time_branch(x, time_dilation, name):
 
 
 def _broadcast_over_freq(t, name):
-    """Broadcast 'mean over frequency' to every freq position via a single op.
+    """Broadcast the frequency-mean back to all frequency positions.
 
-    Mathematically equivalent to
-        AveragePooling2D((F,1), valid) -> UpSampling2D((F,1), nearest)
-    but implemented as one frozen DepthwiseConv2D so the TFLite converter
-    does not hit the 'same scale constraint' between the pool and the
-    downstream Add during INT8 quantization of QAT models.
-
-    With kernel size (2F-1, 1) and padding='same', the kernel window at every
-    output freq position spans all F input positions (the remaining F-1 taps
-    fall on zero-pad and contribute 0). With every kernel weight set to 1/F,
-    output[b, f, t, c] = (1/F) * sum_{f'=0..F-1} input[b, f', t, c] = mean,
-    for every f. Forward-pass equivalence to the old AvgPool+UpSampling path
-    is bit-identical up to ~1e-7 floating-point rounding.
-
-    The weights are frozen (trainable=False) and never updated during training.
+    How: uses a frozen depthwise conv with a constant 1/F kernel so the
+    output at every frequency equals the mean over the frequency axis.
+    This avoids AvgPool+UpSampling converter issues for INT8.
     """
     freq_dim = t.shape[1]
     if freq_dim is None:
@@ -86,6 +84,12 @@ def _broadcast_over_freq(t, name):
 
 
 def _normal_block(x, filters, time_dilation, name):
+    """A BC-ResNet normal block combining frequency and time branches.
+
+    How: compute frequency-branch and time-branch, broadcast time over
+    frequency, add them, apply a pointwise conv+BN, optionally add a
+    residual, and finish with ReLU.
+    """
     shortcut = x
 
     f = _freq_branch(x, name=f'{name}_fb')
@@ -113,6 +117,10 @@ def _normal_block(x, filters, time_dilation, name):
 
 
 def _transition_block(x, filters, name):
+    """Transition block: pointwise conv + BN + ReLU, then freq pooling.
+
+    How: reduces frequency resolution by average-pooling with pool (2,1).
+    """
     x = layers.Conv2D(
         filters,
         kernel_size=(1, 1),
@@ -132,7 +140,10 @@ def _transition_block(x, filters, name):
 
 
 def build_bc_resnet(input_shape=(40, 32, 1), num_classes=12):
-    """BC-ResNet-1 (smallest variant) per Kim et al. 2021."""
+    """BC-ResNet-1 (smallest variant) per Kim et al. 2021.
+
+    Returns a Keras `Model` ready for training or inference.
+    """
 
     inputs = tf.keras.Input(shape=input_shape, name='mfcc_input')
 

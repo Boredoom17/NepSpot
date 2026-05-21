@@ -18,6 +18,11 @@ KEYWORDS = [
 ]
 
 def load_and_pad(file_path, sr=SAMPLE_RATE, duration=DURATION):
+    """Load an audio file and ensure it is exactly `duration` seconds long.
+
+    How: center-trim if audio is too long, otherwise zero-pad at the end.
+    Returns the raw audio array sampled at `sr`.
+    """
     audio, _ = librosa.load(file_path, sr=sr, mono=True)
     target_len = int(sr * duration)
     if len(audio) > target_len:
@@ -29,6 +34,11 @@ def load_and_pad(file_path, sr=SAMPLE_RATE, duration=DURATION):
     return audio
 
 def extract_mfcc_raw(audio, sr=SAMPLE_RATE):
+    """Compute MFCC features from a raw audio array using librosa.
+
+    How: uses configured `N_MFCC`, `HOP_LENGTH`, and `N_FFT` constants.
+    Returns the MFCC numpy array (shape: n_mfcc x frames).
+    """
     mfcc = librosa.feature.mfcc(
         y=audio, sr=sr,
         n_mfcc=N_MFCC,
@@ -43,7 +53,7 @@ def collect_all_mfccs():
         s for s in os.listdir(RAW_DIR)
         if os.path.isdir(os.path.join(RAW_DIR, s))
     ])
-    print("Pass 1/2 — Collecting raw MFCCs from " + str(len(speakers)) + " speakers...")
+    print("Collecting raw MFCCs from " + str(len(speakers)) + " speakers...")
     for speaker in speakers:
         for word in KEYWORDS:
             folder = os.path.join(RAW_DIR, speaker, word)
@@ -74,7 +84,7 @@ def save_normalized(all_mfccs, global_mean, global_std):
         s for s in os.listdir(RAW_DIR)
         if os.path.isdir(os.path.join(RAW_DIR, s))
     ])
-    print("Pass 2/2 — Normalizing and saving to " + PROCESSED_DIR + " ...")
+    print("Normalizing and saving to " + PROCESSED_DIR + " ...")
     idx = 0
     total = 0
     for speaker in speakers:
@@ -93,10 +103,15 @@ def save_normalized(all_mfccs, global_mean, global_std):
                 idx += 1
                 total += 1
         name = speaker.split('_', 1)[1] if '_' in speaker else speaker
-        print("  ✓ " + name)
+            print("  OK " + name)
     print("Done. Saved " + str(total) + " normalized files.")
 
 def process_all():
+    """Run a full extract -> normalize -> save pipeline for the repo.
+
+    How: collects raw MFCCs, computes global mean/std, and writes
+    normalized .npy files to `data/processed/` and stats to `models/saved`.
+    """
     all_mfccs = collect_all_mfccs()
     print("Total clips: " + str(len(all_mfccs)))
     global_mean, global_std = compute_and_save_stats(all_mfccs)

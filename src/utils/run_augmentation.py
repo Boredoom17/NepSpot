@@ -4,6 +4,12 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from augment import augment_file, load_audio, speed_stretch
 import soundfile as sf
 
+"""Utilities to populate `data/raw/` with augmented audio.
+
+What: fills folders to a target clip count and adds speed/pitch variants.
+How: uses augmentation helpers in `augment.py` and writes WAV files.
+"""
+
 RAW_DIR = "data/raw"
 TARGET  = 10
 SPEED_NOISE_FACTOR = 0.004
@@ -49,7 +55,7 @@ def fill_to_target(speaker, word, folder):
         return 0  # already enough
     
     needed = TARGET - current
-    print(f"    {word}: {current} clips → need {needed} more")
+    print(f"    {word}: {current} clips -> need {needed} more")
     
     added = 0
     # cycle through existing clips and augment them
@@ -84,7 +90,7 @@ def fill_to_target(speaker, word, folder):
             sf.write(out_path, augmented, sr)
             added += 1
         except Exception as e:
-            print(f"      ✗ aug failed: {e}")
+            print(f"      aug failed: {e}")
         
         i += 1
     
@@ -130,7 +136,7 @@ def augment_for_speed(speaker, word, folder):
                 sf.write(out_path, stretched, sr)
                 added += 1
         except Exception as e:
-            print(f"      ✗ {e}")
+            print(f"      {e}")
 
     return added
 
@@ -163,7 +169,7 @@ def main():
     print(f"Skipping val/test: {sorted(EXCLUDED_SPEAKERS)}")
     for speaker in speakers:
         if speaker in EXCLUDED_SPEAKERS:
-            print(f"  ⏭  {speaker} (val/test)")
+            print(f"  skipping {speaker} (val/test)")
             continue
         for word in KEYWORDS:
             folder = os.path.join(RAW_DIR, speaker, word)
@@ -171,7 +177,7 @@ def main():
                 continue
             total_added += augment_for_speed(speaker, word, folder)
         name = speaker.split('_', 1)[1] if '_' in speaker else speaker
-        print(f"  ✓ {name}")
+        print(f"  OK {name}")
 
     print(f"\nDone. Added {total_added} augmented clips total.")
 

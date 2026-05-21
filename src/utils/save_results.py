@@ -10,13 +10,7 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from utils.dataset import KEYWORDS, MODELS_DIR, RESULTS_DIR, ensure_directory, load_split_dataset, summarize_split
 
-plt.rcParams['axes.unicode_minus'] = False
-
-# ── FIXED Font setup — Clean and reliable ──
-plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['font.family'] = ['Devanagari MT', 'Noto Sans Devanagari', 'DejaVu Sans', 'sans-serif']
-
-print("Font family set to:", plt.rcParams['font.family'])
 
 NEPALI_LABELS = {
     'baalnu': 'बाल्नु', 'banda': 'बन्द', 'suru': 'सुरु',
@@ -34,18 +28,15 @@ ROMANIZED_LABELS = {
 }
 
 def get_plot_labels(le_classes):
-    """Smart label selection: Devanagari if font works, else Romanized"""
+    """Return Devanagari labels when available, otherwise Romanized."""
     try:
-        # Test if Devanagari renders (try first character)
         test_label = NEPALI_LABELS[le_classes[0]]
-        fig, ax = plt.subplots(figsize=(1,1))
+        fig, ax = plt.subplots(figsize=(1, 1))
         ax.text(0.5, 0.5, test_label, fontsize=12)
         fig.canvas.draw()
-        # If no error and renders, use Devanagari
         plt.close(fig)
         return [NEPALI_LABELS[c] for c in le_classes]
-    except:
-        print("Devanagari font test failed, using Romanized labels")
+    except Exception:
         return [ROMANIZED_LABELS[c] for c in le_classes]
 
 def main():

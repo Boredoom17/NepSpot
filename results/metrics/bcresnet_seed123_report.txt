@@ -1,0 +1,37 @@
+Evaluation split: speaker-independent test
+Speakers: voicer28, voicer29, voicer30
+Samples: 361
+
+Model: BC-ResNet-1 baseline
+Reference: Qualcomm AI Research BC-ResNet Keras port
+Float32 pre-QAT test accuracy: 83.38%
+Float32 pre-QAT macro F1: 0.8315
+Total parameters: 13732
+Trainable parameters: 11276
+Non-trainable parameters: 2456
+Float32 model size (KB): 53.64
+Float32 test accuracy: 83.10%
+Float32 macro F1: 0.8302
+CPU inference time per sample (ms): 141.574
+INT8 model size (KB): 93.64
+INT8 test accuracy: 83.10%
+INT8 macro F1: 0.8315
+
+              precision    recall  f1-score   support
+
+     aghillo       1.00      0.73      0.85        30
+        arko       0.97      0.90      0.93        31
+      baalnu       0.87      0.67      0.75        30
+       banda       0.79      0.73      0.76        30
+        feri       0.84      0.87      0.85        30
+       hoina       0.66      0.97      0.78        30
+      huncha       0.93      0.90      0.92        30
+      maathi       1.00      0.97      0.98        30
+       roknu       0.84      0.87      0.85        30
+        suru       0.70      0.93      0.80        30
+        tala       0.54      0.47      0.50        30
+   thik_chha       1.00      0.97      0.98        30
+
+    accuracy                           0.83       361
+   macro avg       0.84      0.83      0.83       361
+weighted avg       0.84      0.83      0.83       361

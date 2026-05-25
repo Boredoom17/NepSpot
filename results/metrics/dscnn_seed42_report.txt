@@ -1,0 +1,35 @@
+Evaluation split: speaker-independent test
+Speakers: voicer28, voicer29, voicer30
+Samples: 361
+
+Model: DS-CNN Phase 1
+Total parameters: 17164
+Trainable parameters: 16268
+Non-trainable parameters: 896
+Float32 model size (KB): 67.05
+Float32 test accuracy: 81.72%
+Float32 macro F1: 0.8174
+CPU inference time per sample (ms): 13.695
+INT8 model size (KB): 33.69
+INT8 test accuracy: 81.16%
+INT8 macro F1: 0.8122
+INT8 CPU inference time per sample (ms): 0.217
+
+              precision    recall  f1-score   support
+
+     aghillo     1.0000    0.6333    0.7755        30
+        arko     0.9032    0.9032    0.9032        31
+      baalnu     0.9600    0.8000    0.8727        30
+       banda     0.8500    0.5667    0.6800        30
+        feri     0.9091    1.0000    0.9524        30
+       hoina     0.6250    1.0000    0.7692        30
+      huncha     1.0000    0.6667    0.8000        30
+      maathi     0.9667    0.9667    0.9667        30
+       roknu     0.7143    1.0000    0.8333        30
+        suru     0.7059    0.8000    0.7500        30
+        tala     0.5143    0.6000    0.5538        30
+   thik_chha     1.0000    0.8000    0.8889        30
+
+    accuracy                         0.8116       361
+   macro avg     0.8457    0.8114    0.8122       361
+weighted avg     0.8459    0.8116    0.8124       361

@@ -1,0 +1,31 @@
+NepSpot v5 vs v6 Comparison
+===========================
+Test set: voicer28/29/30 originals, n=361 clips, 12 keywords
+Models: INT8 post-QAT, 3 seeds (42, 123, 456), mean +/- sample stdev (n-1)
+v6 numbers computed from per-seed report files in results/metrics/.
+v5 numbers as supplied: Vanilla 83.75%+/-1.12%, DS-CNN 79.04%+/-1.15%,
+                       BC-ResNet 81.72%+/-2.20%.
+
+INT8 test accuracy (3-seed mean +/- stdev)
+------------------------------------------
+Model           v5                  v6                  Delta (v6 - v5)
+Vanilla CNN     83.75% +/- 1.12%    86.79% +/- 3.46%    +3.04%
+DS-CNN          79.04% +/- 1.15%    79.22% +/- 2.27%    +0.18%
+BC-ResNet       81.72% +/- 2.20%    84.39% +/- 1.15%    +2.67%
+
+Per-seed v6 INT8 accuracies (source for v6 means above)
+-------------------------------------------------------
+Model           seed=42   seed=123   seed=456
+Vanilla CNN     83.38%    86.70%     90.30%
+DS-CNN          81.16%    76.73%     79.78%
+BC-ResNet       85.32%    83.10%     84.76%
+
+Notes
+-----
+1. v6 BC-ResNet improves +2.67% over v5 AND tightens the std from +/-2.20% to
+   +/-1.15% -- the architecture is more accurate and more stable across seeds.
+2. v6 Vanilla CNN gains +3.04% mean but widens the std band to +/-3.46%,
+   driven mostly by seed=456 (90.30%). Single-seed claims should be flagged.
+3. v6 DS-CNN is statistically unchanged from v5 (+0.18%, well inside std).
+4. All v6 deltas point in the same direction (+), consistent with the v6 norm
+   stats fix (mean=-11.6888, std=72.9010) and the test-set re-extraction.

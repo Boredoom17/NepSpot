@@ -3,11 +3,11 @@ Seed: 42
 Speakers (test): voicer28, voicer29, voicer30
 Test samples: 361 (voicer28-30 originals only)
 Train pipeline: from_tensor_slices -> shuffle(4096, seed=42) -> batch(32) -> prefetch(1)
-Training time:  105.6 min
+Training time:  82.7 min
 INT8 model size (KB): 87.95
-INT8 input qparams:   scale=0.051455 zero_point=57
-INT8 test accuracy:   75.35%
-INT8 macro F1:        0.7576
+INT8 input qparams:   scale=0.051762 zero_point=57
+INT8 test accuracy:   73.96%
+INT8 macro F1:        0.7344
 
 TFLite output: models/tflite/bcresnet_no_specaug_int8.tflite
 
@@ -16,20 +16,20 @@ Baseline reference (BC-ResNet with SpecAug+Mixup, seed=42):
 
               precision    recall  f1-score   support
 
-     aghillo     1.0000    0.7333    0.8462        30
-        arko     1.0000    0.5484    0.7083        31
-      baalnu     0.9200    0.7667    0.8364        30
-       banda     0.7619    0.5333    0.6275        30
-        feri     0.7812    0.8333    0.8065        30
-       hoina     0.5918    0.9667    0.7342        30
-      huncha     0.9630    0.8667    0.9123        30
+     aghillo     0.9583    0.7667    0.8519        30
+        arko     0.8571    0.5806    0.6923        31
+      baalnu     0.8235    0.4667    0.5957        30
+       banda     0.7500    0.6000    0.6667        30
+        feri     0.9062    0.9667    0.9355        30
+       hoina     0.5400    0.9000    0.6750        30
+      huncha     0.7742    0.8000    0.7869        30
       maathi     0.7838    0.9667    0.8657        30
-       roknu     0.6786    0.6333    0.6552        30
-        suru     0.6757    0.8333    0.7463        30
-        tala     0.3590    0.4667    0.4058        30
-   thik_chha     1.0000    0.9000    0.9474        30
+       roknu     0.6389    0.7667    0.6970        30
+        suru     0.6857    0.8000    0.7385        30
+        tala     0.4583    0.3667    0.4074        30
+   thik_chha     0.9000    0.9000    0.9000        30
 
-    accuracy                         0.7535       361
-   macro avg     0.7929    0.7540    0.7576       361
-weighted avg     0.7935    0.7535    0.7575       361
+    accuracy                         0.7396       361
+   macro avg     0.7563    0.7401    0.7344       361
+weighted avg     0.7566    0.7396    0.7343       361
 

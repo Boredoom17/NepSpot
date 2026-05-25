@@ -1,0 +1,25 @@
+McNemar pairwise tests - NepSpot v6
+Test set: voicer28/29/30, n=361 clips, 12 keywords
+Models: seed-42 float32 checkpoints (predictions cached by bootstrap_ci.py)
+
+BC-ResNet vs DS-CNN
+  BC-ResNet    correct: 304/361 (84.21%)
+  DS-CNN       correct: 295/361 (81.72%)
+  discordant: BC-ResNet-only-wrong=22, DS-CNN-only-wrong=31, total=53
+  McNemar exact binomial p = 0.272
+  McNemar chi-square (continuity-corrected) stat=1.208, p = 0.272
+
+BC-ResNet vs Vanilla CNN
+  BC-ResNet    correct: 304/361 (84.21%)
+  Vanilla CNN  correct: 303/361 (83.93%)
+  discordant: BC-ResNet-only-wrong=35, Vanilla CNN-only-wrong=36, total=71
+  McNemar exact binomial p = 1.000
+  McNemar chi-square (continuity-corrected) stat=0.000, p = 1.000
+
+DS-CNN vs Vanilla CNN
+  DS-CNN       correct: 295/361 (81.72%)
+  Vanilla CNN  correct: 303/361 (83.93%)
+  discordant: DS-CNN-only-wrong=40, Vanilla CNN-only-wrong=32, total=72
+  McNemar exact binomial p = 0.410
+  McNemar chi-square (continuity-corrected) stat=0.681, p = 0.409
+

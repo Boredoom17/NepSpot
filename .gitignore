@@ -22,36 +22,41 @@ Thumbs.db
 # Logs
 *.log
 
-# Raw audio (too big for git, host on Zenodo)
-data/raw/
-data/external/staging/extracted/commonvoice/cv-corpus-*/clips/
-data/external/opensir/zips/
+# Audio data — never committed (host separately, e.g. Hugging Face)
+data/raw/**
+data/processed/**
+data/external/staging/
+data/external/openslr/clips/
+data/external/opensir/clips/
+data/external/commonvoice/clips/
+*.wav
+*.mp3
+*.flac
 
-# Processed features (regenerable, too big)
-data/processed/
+# Numpy feature caches inside data/ (regenerable from raw audio)
+data/**/*.npy
 
-# Large model checkpoints (host on Zenodo or releases)
-models/saved/*.keras
+# Large model checkpoints (release via Zenodo / GitHub Releases)
+models/saved/**/*.keras
 models/saved/*_saved_model/
+models/saved/**/*_saved_model/
 models/kfold/*.keras
 models/kfold/*.tflite
 
-# Keep small/critical files even in ignored dirs
-!models/saved/mfcc_mean.npy
-!models/saved/mfcc_std.npy
-!models/saved/*_label_classes.npy
-!models/tflite/
+# Keep small/critical artifacts even in ignored areas
+!data/README.md
 !data/external/manifests/
+!data/external/manifests/**
 !data/external/opensir/scan_keywords.py
 !data/external/opensir/utt_spk_text.tsv
+!models/saved/mfcc_mean.npy
+!models/saved/mfcc_std.npy
+!models/saved/label_classes.npy
+!models/saved/*_label_classes.npy
+!models/saved/v6/*_labels.npy
+!models/tflite/
 
 # Build artifacts
 build/
 dist/
 *.egg-info/
-
-# Archive directory (local notes, not for repo)
-archive/
-# Keep private project state files local
-CHANGELOG.md
-CONTEXT.md

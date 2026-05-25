@@ -103,7 +103,7 @@ def save_normalized(all_mfccs, global_mean, global_std):
                 idx += 1
                 total += 1
         name = speaker.split('_', 1)[1] if '_' in speaker else speaker
-            print("  OK " + name)
+        print("  OK " + name)
     print("Done. Saved " + str(total) + " normalized files.")
 
 def process_all():

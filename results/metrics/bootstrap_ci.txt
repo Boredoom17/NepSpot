@@ -5,12 +5,12 @@ Models evaluated as float32 .keras checkpoints
 
 Accuracy
 --------
-Vanilla CNN : 84.49% [80.88%, 88.37%]
-DS-CNN      : 80.06% [75.62%, 83.94%]
-BC-ResNet   : 81.16% [77.01%, 85.32%]
+Vanilla CNN : 83.93% [80.06%, 87.81%]
+DS-CNN      : 81.72% [77.84%, 85.87%]
+BC-ResNet   : 84.21% [80.61%, 88.09%]
 
 Macro F1
 --------
-Vanilla CNN : 0.8423 [0.8025, 0.8778]
-DS-CNN      : 0.8016 [0.7570, 0.8380]
-BC-ResNet   : 0.8137 [0.7716, 0.8508]
+Vanilla CNN : 0.8407 [0.8005, 0.8773]
+DS-CNN      : 0.8174 [0.7765, 0.8529]
+BC-ResNet   : 0.8425 [0.8031, 0.8765]

@@ -1,0 +1,32 @@
+OOV Real Speech Test (OpenSLR-54)
+==================================
+
+Dataset: 100 real Nepali speech utterances with NO target keywords
+Source: CommonVoice corpus, ne-NP locale
+Duration per clip: 1 second @ 16 kHz mono
+Total duration tested: 100 seconds
+
+Threshold Sweep Results:
+Threshold | FAR (%) | FRR (%) | Accepted | Rejected
+──────────────────────────────────────────────────────
+0.30      |   0.00  | 100.00  |        0 |      100
+0.35      |   0.00  | 100.00  |        0 |      100
+0.40      |   0.00  | 100.00  |        0 |      100
+0.45      |   0.00  | 100.00  |        0 |      100
+0.50      |   0.00  | 100.00  |        0 |      100
+0.55      |   0.00  | 100.00  |        0 |      100
+0.60      |   0.00  | 100.00  |        0 |      100
+0.65      |   0.00  | 100.00  |        0 |      100
+0.70      |   0.00  | 100.00  |        0 |      100
+0.75      |   0.00  | 100.00  |        0 |      100
+0.80      |   0.00  | 100.00  |        0 |      100
+0.85      |   0.00  | 100.00  |        0 |      100
+0.90      |   0.00  | 100.00  |        0 |      100
+0.95      |   0.00  | 100.00  |        0 |      100
+
+Analysis:
+  - FAR very low at high threshold (0.95): 0.00%
+
+Summary:
+  - Optimal threshold for FAR < 5%: 0.30
+  - At that threshold, FRR: 100.00%

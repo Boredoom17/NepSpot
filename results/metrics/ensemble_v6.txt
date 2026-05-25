@@ -1,0 +1,31 @@
+BC-ResNet 3-seed majority-vote ensemble - NepSpot v6
+Seeds: 42, 123, 456 | Test set: voicer28/29/30, n=361 clips
+Tie-break (3-way disagreement): mean-probability argmax (15 samples)
+
+  BC-ResNet seed  42 accuracy: 84.21%
+  BC-ResNet seed 123 accuracy: 83.10%
+  BC-ResNet seed 456 accuracy: 85.87%
+
+Ensemble accuracy: 87.53%
+Ensemble macro F1: 0.8746
+
+Per-class report:
+              precision    recall  f1-score   support
+
+     aghillo     1.0000    0.9000    0.9474        30
+        arko     0.9667    0.9355    0.9508        31
+      baalnu     0.9524    0.6667    0.7843        30
+       banda     0.8214    0.7667    0.7931        30
+        feri     0.9091    1.0000    0.9524        30
+       hoina     0.7000    0.9333    0.8000        30
+      huncha     0.9655    0.9333    0.9492        30
+      maathi     1.0000    0.9667    0.9831        30
+       roknu     0.9062    0.9667    0.9355        30
+        suru     0.8182    0.9000    0.8571        30
+        tala     0.5517    0.5333    0.5424        30
+   thik_chha     1.0000    1.0000    1.0000        30
+
+    accuracy                         0.8753       361
+   macro avg     0.8826    0.8752    0.8746       361
+weighted avg     0.8828    0.8753    0.8748       361
+

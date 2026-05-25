@@ -1,0 +1,54 @@
+SpecAugment + Mixup Ablation - NepSpot v6
+==========================================
+Test set: voicer28/29/30 originals (no _aug_), n=361 clips, 12 keywords
+Train pipeline: from_tensor_slices -> shuffle(4096, seed=42) -> batch(32) -> prefetch(1)
+Per-seed reports read from results/metrics/{vanilla,dscnn,bcresnet}_seed{42,123,456}_report.txt
+No-aug reports read from results/metrics/{vanilla,dscnn,bcresnet}_no_specaug_report.txt
+
+Setup
+-----
+WITH    = SpecAugment + Mixup, 3 seeds (42, 123, 456), mean +/- sample stdev (n-1)
+WITHOUT = no SpecAugment, no Mixup, single seed=42
+
+INT8 test accuracy
+------------------
+Model           WITH SpecAug+Mixup        WITHOUT      Delta (WITHOUT - WITH mean)
+Vanilla CNN     86.79% +/- 3.46%          89.75%       +2.96%
+DS-CNN          79.22% +/- 2.27%          77.01%       -2.21%
+BC-ResNet       84.39% +/- 1.15%          73.96%       -10.43%
+
+INT8 macro F1 (3-seed mean / single-seed no-aug)
+------------------------------------------------
+Model           WITH SpecAug+Mixup        WITHOUT
+Vanilla CNN     0.8680 +/- 0.0333         0.8960
+DS-CNN          0.7899 +/- 0.0255         0.7652
+BC-ResNet       0.8440 +/- 0.0108         0.7344
+
+Per-seed INT8 accuracies (WITH SpecAug+Mixup)
+---------------------------------------------
+Model           seed=42   seed=123   seed=456
+Vanilla CNN     83.38%    86.70%     90.30%
+DS-CNN          81.16%    76.73%     79.78%
+BC-ResNet       85.32%    83.10%     84.76%
+
+Float32 test accuracy (3-seed mean, WITH SpecAug+Mixup)
+-------------------------------------------------------
+Model           Mean      Stdev
+Vanilla CNN     87.07%    3.69%
+DS-CNN          79.78%    1.82%
+BC-ResNet       84.39%    1.39%
+
+Interpretation
+--------------
+1. SpecAugment+Mixup HURTS Vanilla CNN: removing both augmentations improves
+   accuracy by +2.96% (89.75% vs 86.79% +/- 3.46%) but the +2.96% delta sits
+   inside the 3-seed std band, so the difference is not significant.
+2. SpecAugment+Mixup HELPS DS-CNN modestly: -2.21% without augmentation.
+3. SpecAugment+Mixup HELPS BC-ResNet substantially: -10.43% without
+   augmentation. BC-ResNet relies most heavily on the augmentation regime.
+
+Notes
+-----
+- WITHOUT runs use a single seed (42) only; no std band is available.
+- The "WITH" std bands are sample stdev across 3 seeds; on n=3 the bands are
+  wide and should be interpreted as rough scale, not strict significance.

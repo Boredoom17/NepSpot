@@ -1,0 +1,33 @@
+OOV Real Speech Test (NepSpot v6)
+==================================
+
+Dataset: 100 real Nepali speech utterances with NO target keywords
+Source: data/raw/oov_real_speech_test/
+Model: BC-ResNet seed 42 (post-QAT float32 SavedModel)
+Duration per clip: 1.0 second @ 16 kHz mono
+
+Max softmax confidence across all 100 OOV clips: 0.908
+Mean max-confidence: 0.485   Median: 0.446
+
+Threshold Sweep Results:
+Threshold | FAR (%) | FRR (%) | Accepted | Rejected
+------------------------------------------------------
+0.30      |  79.00  |  21.00  |       79 |       21
+0.35      |  65.00  |  35.00  |       65 |       35
+0.40      |  60.00  |  40.00  |       60 |       40
+0.45      |  48.00  |  52.00  |       48 |       52
+0.50      |  42.00  |  58.00  |       42 |       58
+0.55      |  36.00  |  64.00  |       36 |       64
+0.60      |  31.00  |  69.00  |       31 |       69
+0.65      |  25.00  |  75.00  |       25 |       75
+0.70      |  18.00  |  82.00  |       18 |       82
+0.75      |  15.00  |  85.00  |       15 |       85
+0.80      |  10.00  |  90.00  |       10 |       90
+0.85      |   4.00  |  96.00  |        4 |       96
+0.90      |   1.00  |  99.00  |        1 |       99
+0.95      |   0.00  | 100.00  |        0 |      100
+
+Analysis:
+  - Max confidence over all OOV clips: 0.908
+  - FAR at threshold 0.30: 79.00%
+  - FAR at threshold 0.95: 0.00%

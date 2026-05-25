@@ -11,15 +11,12 @@
 [![C++](https://img.shields.io/badge/C%2B%2B-TFLite%20Micro-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](https://www.tensorflow.org/lite/microcontrollers)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-**Aadarsha Chhetri** — Oxford College Butwal (Tribhuvan University)
-
-[🔗 Repository](https://github.com/Boredoom17/NepSpot)
 
 </div>
 
 ---
 
-## 📖 Overview
+## Overview
 
 NepSpot is a keyword-spotting system for Nepali that recognizes 12 spoken command words on a microcontroller with **256 KB of RAM and 1 MB of flash** — no network, no phone, no cloud. The Arduino Nano 33 BLE Sense Rev2 captures audio through its onboard PDM microphone, computes MFCC features on-device, and runs an INT8-quantized BC-ResNet for inference. Everything fits in the device's tiny memory budget.
 
@@ -29,16 +26,16 @@ The 12 keywords:
 
 `aghillo` (front) • `arko` (next) • `baalnu` (turn on) • `banda` (close) • `feri` (again) • `hoina` (no) • `huncha` (okay) • `maathi` (up) • `roknu` (stop) • `suru` (start) • `tala` (down) • `thik_chha` (correct)
 
-## ✨ Key Features
+## Key Features
 
-- 🎯 **On-device inference** — MFCC + BC-ResNet INT8 running locally; no network at any stage
-- 🔬 **Three architectures benchmarked** — Vanilla CNN, DS-CNN, BC-ResNet under identical conditions
-- 📊 **Statistically rigorous evaluation** — 3-seed runs, speaker-resampled bootstrap CIs, McNemar and Friedman tests
-- 🔁 **5-fold speaker-independent cross-validation** for generalization estimates
-- 🎚️ **Confidence-thresholded OOV rejection** with full FAR/FRR sweeps
-- 📦 **Reproducible** — deterministic seeding, frozen config splits, archived per-seed reports
+- **On-device inference** — MFCC + BC-ResNet INT8 running locally; no network at any stage
+- **Three architectures benchmarked** — Vanilla CNN, DS-CNN, BC-ResNet under identical conditions
+- **Statistically rigorous evaluation** — 3-seed runs, speaker-resampled bootstrap CIs, McNemar and Friedman tests
+- **5-fold speaker-independent cross-validation** for generalization estimates
+- **Confidence-thresholded OOV rejection** with full FAR/FRR sweeps
+- **Reproducible** — deterministic seeding, frozen config splits, archived per-seed reports
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Training**: Python 3.10, TensorFlow 2.x, NumPy, SciPy, scikit-learn, librosa
 - **Quantization**: TensorFlow Lite Converter (INT8 PTQ + QAT)
@@ -46,7 +43,7 @@ The 12 keywords:
 - **Firmware**: C++ on Arduino Nano 33 BLE Sense Rev2 (nRF52840 @ 64 MHz)
 - **Data collection**: Boli-Recorder web app + OpenSLR-54 mining
 
-## 📊 Results
+## Results
 
 Test accuracy reported as **mean ± std** across 3 seeds (42, 123, 456) on the speaker-independent test split. Model sizes are INT8 TFLite flat-buffer sizes.
 
@@ -76,7 +73,7 @@ Test accuracy reported as **mean ± std** across 3 seeds (42, 123, 456) on the s
 | Free heap             | 40,824 B                      |
 | TFLM tensor arena     | 130 KB                        |
 
-## 🚀 How to Reproduce
+## How to Reproduce
 
 ```bash
 # 1. Environment
@@ -103,14 +100,14 @@ for f in 1 2 3 4 5; do
 done
 ```
 
-### 🤖 Deploying to Arduino
+### Deploying to Arduino
 
 1. Open `firmware/NepSpot/NepSpot.ino` in the Arduino IDE.
 2. Install the board package **Arduino Mbed OS Nano Boards** and the library **Chirale_TensorFlowLite**.
 3. Select board: *Arduino Nano 33 BLE Sense*; upload.
 4. Open Serial Monitor at **115200 baud** to watch per-class scores after each detected utterance.
 
-## 🗂️ Dataset
+## Dataset
 
 The training corpus was assembled from two sources, both held privately:
 
@@ -119,7 +116,7 @@ The training corpus was assembled from two sources, both held privately:
 
 Audio data is not shipped in this repository. See [data/README.md](data/README.md). Manifests describing source provenance live under [data/external/manifests/](data/external/manifests/).
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 NepSpot/
@@ -150,7 +147,7 @@ NepSpot/
 └── requirements.txt
 ```
 
-## 📚 Citation
+## Citation
 
 ```bibtex
 @misc{chhetri2026nepspot,
@@ -163,16 +160,14 @@ NepSpot/
 
 *[arXiv link coming soon]*
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Thanks to every speaker who contributed recordings through Boli-Recorder, and to the OpenSLR-54 contributors whose corpus made the augmentation pipeline possible. <br>
-Built at **Oxford College Butwal** (Tribhuvan University). <br>
-Made with ❤️ by **Aadarsha**
 
 ---
 
 <div align="center">
 
-**A small voice, a small chip — on-device Nepali speech.**
+**A hope of small contribution to Nepali NLP.**
 
 </div>

@@ -4,7 +4,6 @@
 
 ### Real-Time Nepali Keyword Spotting on a 256 KB Microcontroller
 
-[![arXiv](https://img.shields.io/badge/arXiv-link%20coming%20soon-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](#citation)
 [![Python](https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Arduino](https://img.shields.io/badge/Arduino-Nano%2033%20BLE%20Sense-00979D?style=for-the-badge&logo=arduino&logoColor=white)](https://store.arduino.cc/products/arduino-nano-33-ble-sense)
